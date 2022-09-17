@@ -1,4 +1,4 @@
-CREATE TABLE "Product"(
+CREATE TABLE "Liquid"(
     "Id" serial,
     "Title" character varying(50) NOT NULL,
     "Description" character varying(200) NOT NULL,
@@ -10,7 +10,6 @@ CREATE TABLE "Product"(
     "Krepost6" boolean default false NOT NULL,
     "Krepost9" boolean default false NOT NULL,
     "Krepost12" boolean default false NOT NULL,
-
     "Salt10" boolean default false NOT NULL,
     "Salt20" boolean default false NOT NULL,
     "Available" boolean NOT NULL default true,
@@ -18,6 +17,7 @@ CREATE TABLE "Product"(
     "CategoryId" integer not null,
     CONSTRAINT "ProductPk" PRIMARY KEY ("Id")
 );
+
 
 CREATE TABLE "Type"(
     "Id" serial,
