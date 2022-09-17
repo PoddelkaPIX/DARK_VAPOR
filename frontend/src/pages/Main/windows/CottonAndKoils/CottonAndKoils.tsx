@@ -17,7 +17,35 @@ export const CottonAndKoils: FC<PropTypes>= ({setProducts}) => {
         fetch("http://localhost:8000/cottons").then(res=>res.json()).then((result)=>setCottonList(result))
         fetch("http://localhost:8000/koils").then(res=>res.json()).then((result)=>setKoilList(result))
     })
-    
+    setCottonList([
+        {
+            "id": 1,
+            "title": "Вата мягкая",
+            "price": 500,
+            "count": -1, 
+            "type": "Вата",
+            "description": "Клубничный джем с классическим кофе и ирисом",
+        },
+        {
+            "id": 2,
+            "title": "Вата плотная",
+            "price": 200,
+            "count": -1, 
+            "type": "Вата",
+            "description": "Яблочный джем",
+        }
+    ])
+
+    setKoilList([
+        {
+            "id": 3,
+            "title": "Коил металлический",
+            "price": 2000,
+            "count": -1, 
+            "type": "Коилы",
+            "description": "Лёгкая тяга",
+        },
+    ])
     return (
         <ProductList data={[cottonList, koilList]} setProducts={(item: IProduct)=>setProducts(item)}/>
     )
