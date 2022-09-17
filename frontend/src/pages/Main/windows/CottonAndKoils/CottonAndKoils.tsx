@@ -10,14 +10,7 @@ interface PropTypes{
 }
 
 export const CottonAndKoils: FC<PropTypes>= ({setProducts}) => {
-    const [cottonList, setCottonList ] = useState<IProduct[]>([])
-    const [koilList, setKoilList ] = useState<IProduct[]>([])
-
-    useEffect(()=>{
-        fetch("http://localhost:8000/cottons").then(res=>res.json()).then((result)=>setCottonList(result))
-        fetch("http://localhost:8000/koils").then(res=>res.json()).then((result)=>setKoilList(result))
-    })
-    setCottonList([
+    const [cottonList, setCottonList ] = useState<IProduct[]>([
         {
             "id": 1,
             "title": "Вата мягкая",
@@ -35,8 +28,7 @@ export const CottonAndKoils: FC<PropTypes>= ({setProducts}) => {
             "description": "Яблочный джем",
         }
     ])
-
-    setKoilList([
+    const [koilList, setKoilList ] = useState<IProduct[]>([
         {
             "id": 3,
             "title": "Коил металлический",
@@ -46,6 +38,12 @@ export const CottonAndKoils: FC<PropTypes>= ({setProducts}) => {
             "description": "Лёгкая тяга",
         },
     ])
+
+    // useEffect(()=>{
+    //     fetch("http://localhost:8000/cottons").then(res=>res.json()).then((result)=>setCottonList(result))
+    //     fetch("http://localhost:8000/koils").then(res=>res.json()).then((result)=>setKoilList(result))
+    // })
+
     return (
         <ProductList data={[cottonList, koilList]} setProducts={(item: IProduct)=>setProducts(item)}/>
     )
