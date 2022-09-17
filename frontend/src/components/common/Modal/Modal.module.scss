@@ -1,0 +1,42 @@
+.modal{
+    z-index: 100000;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    backdrop-filter: blur(15px);
+    background-color: rgba(0, 0, 0, 0.1);
+    align-items: center;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.modal-content{
+    z-index: 110000;
+    display: grid;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: fit-content;
+    height: fit-content;
+    padding: 10px;
+    .cross{
+        z-index: 121;
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        width: fit-content;
+        height: fit-content;
+        background: none;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+        i{
+            color: white;
+        }
+    }
+}

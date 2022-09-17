@@ -1,0 +1,66 @@
+.product-card{
+    padding: 5px;
+    background-color: #1A1A18;
+    border-radius: 6px;
+    color: white;
+    display: grid;
+    grid-template-areas: "title price description button";
+    grid-template-columns: 150px 150px auto 100px;
+    align-items: center;
+    gap: 5px;
+    box-shadow: 8px 16px 25px 1px rgba(0, 0, 0, 0.3);
+    
+    .product-card-title{
+        display: flex;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+        padding: 6px;
+        font-weight: bold;
+        grid-area: title;
+    }
+
+    .product-card-price{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #30302C;
+        border-radius: 4px;
+        padding: 3px;
+        max-height: 25px;
+        min-width: 100px;
+        grid-area: price;
+    }
+
+    .product-card-description{
+        text-align: center;
+        align-items: center;
+        color: #a5a5a5;
+        border: 1px solid #30302C;
+        border-radius: 4px;
+        padding: 6px;
+        grid-area: description;
+    }
+
+    .button-in-basket{
+        border: none;
+        background: none;
+        color: white;
+        padding: 6px;
+        background-color: #1B4DB9;
+        border-radius: 4px;
+        max-width: 150px;
+        height: fit-content;
+        grid-area: button;
+    }
+}
+
+@media screen and (max-width:500px) {
+    .product-card{
+        display: grid;
+        grid-template-areas: "title price"
+                            "description description"
+                            "button .";
+        grid-template-columns: auto auto;
+    }
+}

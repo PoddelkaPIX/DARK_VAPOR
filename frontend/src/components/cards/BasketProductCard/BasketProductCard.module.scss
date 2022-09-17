@@ -1,0 +1,104 @@
+.basket-product-card{
+    padding: 5px;
+    background-color: #1A1A18;
+    border-radius: 6px;
+    color: white;
+    display: grid;
+    text-align: center;
+    grid-template-areas: "index title price count buttons";
+    grid-template-columns: 20px 150px 150px auto 50px;
+    gap: 20px;
+    box-shadow: 8px 16px 25px 1px rgba(0, 0, 0, 0.3);
+    .index{
+        padding-right: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        grid-area: index;
+        border-right: 1px solid rgb(181, 181, 181);
+    }
+    .basket-product-title{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 6px;
+        font-weight: bold;
+        grid-area: title;
+    }
+
+    .basket-product-price{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #30302C;
+        border-radius: 4px;
+        padding: 3px;
+        grid-area: price;
+    }
+    .product-number{
+        display: flex;
+        gap: 5px;
+        align-items: center;
+        grid-area: count;
+        button{
+            background-color: #1B4DB9;
+            color: white;
+            border-radius: 4px;
+            border: none;
+            width: 20px;
+            height: 20px;
+            align-items: center;
+        }
+        input{
+            width: 20px;
+            border-radius: 4px;
+            background-color: #6f6f6f;
+            text-align: center;
+            color: white;
+            border: none;
+            outline:none;
+        }
+    }
+    .buttons{
+        display: flex;
+        flex-direction: row;
+        gap: 15px;
+        grid-area: buttons;
+        margin-left: auto;
+        .button-pencil{
+            color: #f4d146;
+        }
+        .button-trash{
+            color: red;
+        }
+        .button-pencil, .button-trash{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+        }
+    }
+}
+
+@media screen and (max-width:600px) {
+    .basket-product-card{
+        position: relative;
+        display: grid;
+        gap: 5px;
+        grid-template-areas: "title title"
+                            "price price"
+                            "count buttons";
+        grid-template-columns: auto auto ;
+        .index{
+            padding: 3px;
+            padding-right: 7px;
+            position: absolute;
+            top: 5px;
+            left: 5px;
+        }
+        .buttons{
+            gap: 15px;
+        }
+    }
+}

@@ -1,0 +1,74 @@
+:root{
+    --header-hidth: 50px;
+}
+
+header{
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #1A1A18;
+    width: 100%;
+    height: var(--header-hidth);
+    #basket{
+        position: relative;
+        background: none;
+        border: none;
+        margin-left: auto;
+        margin-right: 30px;
+        color: white;
+        font-size: 32px;
+        &:hover{
+            cursor: pointer;
+            color: #a7c2fe;
+        }
+        #product-count{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            height: 15px;
+            width: 15px;
+            background-color: #db6619;
+            font-size: 10px;
+            color: white;
+            position: absolute;
+            left: -4px;
+            bottom: 6px;
+        }
+    }
+    #logo{
+        height: 80%;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        margin-left: 20px;
+    }
+    #logo-img{
+        height: 95%;
+        
+    }
+    #logo-title{
+        height: 90%;
+    }
+    #basket-drop-box{
+        position: absolute;
+        bottom: -302px;
+        right: 20px;
+        height: 300px;
+        width: 250px;
+        background-color: #3b3b3a;
+        border: 2px solid #515150;
+        border-top: none;
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+        #basket-products{
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+    }
+}
+

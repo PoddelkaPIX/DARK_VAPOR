@@ -1,0 +1,93 @@
+#basket-modal{
+   position: relative;
+   padding: 10px;
+   border-radius: 8px;
+   background-color: #6f6f6f;
+   min-width: 550px;
+   min-height: 400px;
+   height: 80vh;
+   scrollbar-width: none;
+   overflow: hidden;
+   // overflow: overlay;
+   #basket-modal-title{
+      position: absolute;
+      top: -40px;
+      left: 10px;
+      color: white;
+      font-size: 30px;
+   }
+   #basket-products{
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      height: calc(100% - 50px);
+      overflow: overlay;
+      &::-webkit-scrollbar{
+         display: none;
+      }
+      #empty{
+         font-size: 30px;
+         font-weight: bold;
+         margin: auto;
+         color: white;
+      }
+   }
+   #basket-actions{
+      border-top: 2px solid rgb(64, 64, 64);
+      background-color: #494949;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 30px;
+      padding: 10px;
+      display: flex;
+      .total-amount{
+         color: rgb(213, 213, 213);
+         font-size: 20px;
+         font-weight: bold;
+         .total-amount-number{
+            color: white;
+            font-size: 24px;
+         }
+      }
+      .button-complite{
+         margin-left: auto;
+         height: 30px;
+         color: white;
+         background: none;
+         border: 1px solid #1B4DB9;
+         background-color: #1B4DB9;
+         font-weight: bold;
+         border-radius: 6px;
+         &:hover{
+             border: 1px solid #1B4DB9;
+             background-color: #295ccb;
+         }
+         &:disabled{
+             color: rgb(189, 189, 189);
+             border: 1px solid rgb(189, 189, 189);
+             background-color: rgb(85, 85, 85);
+             cursor: auto;
+         }
+       }
+   }
+}
+
+@media screen and (max-width:600px) {
+   #basket-modal{
+      min-width:90vw;
+      #basket-products{
+         gap: 15px;
+      }
+      #basket-actions{
+         height: 50px;
+         flex-direction: column;
+         padding-top: 5px;
+         gap: 5px;
+         .button-complite{
+            margin-left: 0;
+         }
+      }
+   }
+}

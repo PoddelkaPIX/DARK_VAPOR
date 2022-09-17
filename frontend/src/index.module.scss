@@ -1,0 +1,57 @@
+@font-face {
+  font-family: ZonaPro-Light;
+  src: url(./fonts/ZonaPro-Light.ttf);
+}
+
+body{
+  margin: 0;
+  padding: 0;
+  padding-top: var(--header-hidth);
+  font-family: ZonaPro-Light;
+}
+
+body::before{
+  content: "";
+  z-index: -1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  background-repeat:no-repeat;
+  background-position: center center;
+  background-image: url("./images/2542.jpg");
+}
+
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+a:hover, button:hover{
+  transform: scale(1.02);
+  cursor: pointer;
+}
+
+input[type="radio"]{
+  display: none;
+}
+
+main{
+  position: relative;
+  width: 70%;
+  min-height: 100vh;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #343434;
+  overflow: hidden;
+}
+
+.button-complite{
+  color: #1B4DB9;
+  background: none;
+  border: 2px solid #1B4DB9;
+}
