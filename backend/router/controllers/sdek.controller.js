@@ -149,7 +149,7 @@ module.exports.orderRegistration = async function(tokken, dataJSON){
             }
         ]
     }
-    url = config.sdek.domenEdu + "/v2/orders"
+    url = config.sdek.domen + "/v2/orders"
     let uuid = await axios({
         method: 'post',
         url: url,
@@ -203,7 +203,7 @@ module.exports.createReceiptSdek = async function(tokken, uuid){
         ],
         "copy_count": 1
     }
-    let url = config.sdek.domenEdu + "/v2/print/orders"
+    let url = config.sdek.domen + "/v2/print/orders"
     let data = await axios({
         method: 'post',
         url: url,
@@ -218,7 +218,7 @@ module.exports.createReceiptSdek = async function(tokken, uuid){
         return error;
     });
   
-    url = config.sdek.domenEdu + "/v2/print/orders/" + data
+    url = config.sdek.domen + "/v2/print/orders/" + data
     
     dataUrl = await axios({
         method: 'get',

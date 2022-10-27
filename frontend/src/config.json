@@ -1,6 +1,6 @@
 {
     "backend": {
-      "host": "http://localhost:",
+      "host": "62.217.178.86:",
       "port": "8000"
     }
   }

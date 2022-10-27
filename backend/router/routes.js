@@ -108,7 +108,7 @@ module.exports = async function(app){
         return
     });
     app.post("/orderConfirmed", async function(req, res){
-        const tokken = await getTokkenEdu()
+        const tokken = await getTokken()
         res.json(await orderConfirmed(tokken.access_token, client, req.body));
         return
     }) 
@@ -155,7 +155,7 @@ module.exports = async function(app){
         return
     });
     app.get('/createReceiptSdek/:uuid',async function(req, res) { 
-        const tokken = await getTokkenEdu()
+        const tokken = await getTokken()
         const urlPfd = await createReceiptSdek(tokken.access_token, req.param("uuid"))
         res.header('Authorization', "Bearer "+tokken);
         res.redirect(urlPfd);
