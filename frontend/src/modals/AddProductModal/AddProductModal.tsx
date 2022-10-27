@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from "react";
-import { IProduct } from "../../App";
 import st from "./AddProductModal.module.scss"
+import config from "../../config.json"
+import { IParam, IProduct } from "../../structs";
 
 interface PropTypes{
     product: IProduct
@@ -10,70 +11,84 @@ interface PropTypes{
 
 export const AddProductModal: FC<PropTypes>=({onClose, product, setProducts}) => {
     const [count, setCount] = useState(1)
-    const [strength, setStrength] = useState<number>()
-    const [salt, setSalt] = useState<number>()
     const [disabledComplite, setDisabledComplite] = useState(true)
+    const [params, setParams] = useState<IParam[]>([])
+    const [selectParameters, setSelectParameters] = useState<{[index: string]:IParam}>({})
+    const [parameterGroups, setParameterGroups] = useState<string[]>([])
+    
+    document.body.style.overflowY = "hidden"
+    
+    function handlerSelectParameter(e: any, parameter: IParam){
+        let parameterClone = Object.assign({}, parameter); 
+        parameterClone.values = [e.target.value]
+        selectParameters[parameterClone.group] = parameterClone
+        setSelectParameters(selectParameters)
+        if (parameterGroups.length === Object.keys(selectParameters).length){
+            setDisabledComplite(false)
+        }else{
+            setDisabledComplite(true)
+        }    
+    }
 
-    const strengthUndefined = product.strengths?.values.length !== undefined
-    const saltUndefined = product.salts?.values.length !== undefined
-
-   
-  
-    function updateCount(coun: number){
-        if (count+coun>=1 && count+coun<=20){
-            setCount(count+coun)
+    function updateParameterGroups(Zparams: IParam[]){
+        for (let item of Zparams){
+            parameterGroups.push(item.group)
         }
+        let a: string[] = parameterGroups.filter(function(item, pos) {
+            return parameterGroups.indexOf(item) === pos;
+        })
+        
+        setParameterGroups(a)
+    }
+
+    function updateCount(coun: number){
+        if (count+coun>=1 && count+coun<=255){
+            setCount(count+coun)
+        }        
     }
     function complite(){
+        let arr: IParam[] = []
+        for (let key of Object.keys(selectParameters)){
+            arr.push(selectParameters[key])
+        }
         onClose()
         setProducts({
-            "id": product.id,
-            "title": product.title,
+            "product_id": product.product_id,
+            "title_product": product.title_product,
             "price": product.price,
-            "type": product.type,
-            "strength": strength,
-            "salt": salt,
+            "title_category": product.title_category,
+            "category_id": product.category_id,
+            "title_type": product.title_type,
+            "type_id": product.type_id,
+            "parameters": arr,
             "count": count})
     }
 
     useEffect(()=>{
-        if ((strength !== undefined || strengthUndefined === false) &&
-            (salt !== undefined || saltUndefined === false)){
-                setDisabledComplite(false)
-        }else{
-            setDisabledComplite(true)
-        }
-        
-    }, [strength, product.strengths?.values.length, product.salts?.values.length, salt, strengthUndefined, saltUndefined])
+        if (params.length === 0){
+            fetch(config.backend.host + config.backend.port + "/productParameterValuesByType/" + product.type_id + "/" + product.product_id).then(res=>res.json()).then((params)=>{setParams(params); updateParameterGroups(params); {params.length === 0 && setDisabledComplite(false)}})
+        } 
+    }, [])
+    
     return (
     <div id={st["add-liquid-modal"]}>
         <div className={st["title"]}><strong > Добавление в корзину</strong></div>
         <table>
-            <thead>
-                
-            </thead>
             <tbody>
-            <tr><td>Товар: </td><td>{product.title}</td></tr>
+            <tr><td>Товар: </td><td>{product.title_product}</td></tr>
             <tr><td>Цена: </td><td>{product.price} ₽</td></tr>
-            {strengthUndefined && 
-                <tr><td>Крепость (%): </td><td>
-                    <div className={st["product-card-strength"]}>
-                        {product.strengths?.values.map(strength => <div key={strength.title}>
-                        <input type="radio" name={"strength-radio"} id={"strength-"+strength.value} onChange={()=>setStrength(strength.value)}></input>
-                        <label htmlFor={"strength-"+strength.value} >{strength.title}</label>
-                        </div>)}
-                    </div>
-                </td></tr>}
-                {saltUndefined && 
-                <tr><td>Соль (%): </td><td>
-                    <div className={st["product-card-salt"]}>
-                        {product.salts?.map(salt => <div key={salt.title}>
-                        <input type="radio" name={"salt-radio"} id={"salt-"+salt.value} onChange={()=>setSalt(salt.value)}></input>
-                        <label htmlFor={"salt-"+salt.value} >{salt.title}</label>
-                        </div>)}
-                    </div>
-                </td></tr>}
-                <tr><td>Сумма: </td><td>{product.price * count} ₽</td></tr>
+            {params?.map((param, index)=>
+            <tr key={index}>
+                <td>{param.title_parameter} %: </td>
+                <td className={st["product-card-nicotine"]}>
+                {param.values.map((value, index)=>
+                    <div key={index}>
+                    <input type="radio" name={param.group} id={"nicotine-"+value} value={value} onChange={(e)=>handlerSelectParameter(e, param)}></input>
+                    <label htmlFor={"nicotine-"+value} >{value}</label>
+                    </div>)}
+                </td>
+            </tr>
+            )}
             </tbody>
         </table>
         <div className={st["product-number"]}>

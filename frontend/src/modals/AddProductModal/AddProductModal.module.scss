@@ -4,6 +4,13 @@
     background-color: #6f6f6f;
     display: grid;
     gap: 10px;
+    max-height: 90vh;
+    max-width: 80vw;
+    overflow:overlay;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+        display: none; /*chrome*/
+      }
     table{
         height: fit-content;
         border-spacing: 10px;
@@ -19,22 +26,27 @@
         text-align: center;
         padding-bottom: 5px;
     }
-    .product-card-salt, .product-card-strength{
+    .product-card-nicotine{
         display: flex;
         gap: 5px;
         align-items: center;
+        -moz-user-select: none;
+        -o-user-select:none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
     }
-    .product-card-strength label{
+    .product-card-nicotine label{
         background-color: #606060;
     }
     
-    .product-card-salt label{
-        background-color: #9e9e9e;
-    }
     
-    .product-card-salt label, .product-card-strength label{
+    .product-card-nicotine label{
         height: fit-content;
-        width: 25px;
+        width: fit-content;
+        padding-left: 5px;
+        padding-right: 5px;
         text-align: center;
         padding: 5px;
         display: block;
@@ -43,7 +55,7 @@
         cursor: pointer;
     }
 
-    .product-card-salt input:checked+label, .product-card-strength input:checked+label{
+    .product-card-nicotine input:checked+label{
         box-shadow: 0 0 0 0.5px white;
     }
     
@@ -92,10 +104,10 @@
 
 
 @media screen and (max-width:1150px) {
-     .product-card-strength, .product-card-salt{
+     .product-card-nicotine{
         flex-wrap: wrap;
      }
-     .product-card-salt{
+     .product-card-nicotine{
         justify-content: baseline;
      }
      .product-number{

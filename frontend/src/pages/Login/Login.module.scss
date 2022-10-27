@@ -1,0 +1,17 @@
+#content{
+    display: flex;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    height: 100vh;
+    #forma{
+        margin: auto;
+        display: grid;
+        gap: 10px;
+        label{
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+    }
+}

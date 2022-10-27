@@ -1,0 +1,20 @@
+{
+    "sdek": {
+      "grant_type": "client_credentials",
+      "client_id": "ws8tYmGzeGWfHTa9PLXt6xX2KeJyXL5N",
+      "client_secret": "ucrPIa5hKzesg3M9B4LNUQWyx0mL5N1I",
+      "domen": "https://api.cdek.ru",
+      "client_idEdu": "EMscd6r9JnFiQ3bLoyjJY6eM78JrJceI",
+      "client_secretEdu": "PjLZkKBHEiLK3YsjtNrt3TGNG0ahs3kG",
+      "domenEdu": "https://api.edu.cdek.ru"
+    },
+    "deliveryRussia": {
+      "Authorization": "AccessToken sDBaa9XNfFargSyQ8KIEM40GB_ndPmLu",
+      "X-User-Authorization": "Basic bG9naW46cGFzc3dvcmQ=",
+      "domen": "https://otpravka-api.pochta.ru"
+    },
+    "telegram": {
+      "token": "5768150484:AAGNJPtjpOKk9Dd4lPDkGf9yLsgC7Kdddrw",
+      "chat": "-762303192"
+    }
+  }

@@ -12,33 +12,37 @@ header{
     background-color: #1A1A18;
     width: 100%;
     height: var(--header-hidth);
-    #basket{
-        position: relative;
-        background: none;
-        border: none;
+    #actions{
+        display: flex;
         margin-left: auto;
-        margin-right: 30px;
-        color: white;
-        font-size: 32px;
-        &:hover{
-            cursor: pointer;
-            color: #a7c2fe;
-        }
-        #product-count{
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            height: 15px;
-            width: 15px;
-            background-color: #db6619;
-            font-size: 10px;
+        #basket, #admin, #orders, #organization{
+            position: relative;
+            background: none;
+            border: none;
+            margin-right: 30px;
             color: white;
-            position: absolute;
-            left: -4px;
-            bottom: 6px;
+            font-size: 32px;
+            &:hover{
+                cursor: pointer;
+                color: #a7c2fe;
+            }
+            #product-count{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                height: 15px;
+                width: 15px;
+                background-color: #db6619;
+                font-size: 10px;
+                color: white;
+                position: absolute;
+                left: -4px;
+                bottom: 6px;
+            }
         }
     }
+    
     #logo{
         height: 80%;
         display: flex;
@@ -72,3 +76,12 @@ header{
     }
 }
 
+@media screen and (max-width:600px) {
+    header{
+        #actions{
+            #basket, #admin, #orders, #organization{
+                margin-right: 20px;
+            }
+        }
+    }
+}

@@ -1,4 +1,5 @@
 .basket-product-card{
+    position: relative;
     padding: 5px;
     background-color: #1A1A18;
     border-radius: 6px;
@@ -59,25 +60,46 @@
             outline:none;
         }
     }
-    .buttons{
+    #buttons{
         display: flex;
-        flex-direction: row;
-        gap: 15px;
-        grid-area: buttons;
-        margin-left: auto;
-        .button-pencil{
-            color: #f4d146;
-        }
-        .button-trash{
-            color: red;
-        }
-        .button-pencil, .button-trash{
+        justify-content: space-between;
+        #button-trash{
             display: flex;
-            justify-content: center;
+            flex-direction: row;
             align-items: center;
-            text-align: center;
+            grid-area: buttons;
+            margin-left: auto;
+            color: red;
             cursor: pointer;
+            margin-right: 10px;
         }
+        #info{
+            font-size: 18px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            grid-area: buttons;
+            margin-left: auto;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+    }
+    #information{
+        z-index: 1000;
+        position: absolute;
+        right: 220px;
+        left: 20px;
+        top: 40px;
+        background-color: #1B4DB9;
+        border: 2px solid #1A1A18;
+        height: fit-content;
+        padding: 5px;
+        border-radius: 2px;
+        font-weight: bold;
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
+
+
     }
 }
 
