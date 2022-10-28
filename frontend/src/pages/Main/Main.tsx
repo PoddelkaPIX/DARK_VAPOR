@@ -16,7 +16,6 @@ export const Main: FC<PropTypes>= ({authorized, setProducts }) => {
     useEffect(()=>{
         document.body.style.overflowY = "unset"
         fetch(config.backend.host + config.backend.port + "/productsByCategory/"+window).then(res=>res.json()).then((result)=>setData(result))
-       
     }, [window])
     return (
         <main>

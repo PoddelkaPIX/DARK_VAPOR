@@ -23,14 +23,18 @@ let quaryParams = new URLSearchParams(params).toString();
 let quaryParamsEdu = new URLSearchParams(paramsEdu).toString();
 
 async function getTokken(){
-   return await fetch(config.sdek.domen + "/v2/oauth/token?" + quaryParams, { 
-        method: 'POST',
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            "Access-Control-Allow-Origin": "*",
-        }
-    }).then(response =>(response.json())
-    ).then(result =>{return result}).catch(function(err){console.log(err); return null})
+    try{
+        return await fetch(config.sdek.domen + "/v2/oauth/token?" + quaryParams, { 
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "Access-Control-Allow-Origin": "*",
+            }
+        }).then(response =>(response.json())).then(result =>{return result})
+    }catch{
+        error=>{console.log(error); return null}
+    }
+   
 }
 
 async function getTokkenEdu(){
