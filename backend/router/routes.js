@@ -113,7 +113,9 @@ module.exports = async function(app){
     });
     app.post("/orderConfirmed", async function(req, res){
         const tokken = await getTokken()
-        res.json(await orderConfirmed(tokken.access_token, client, req.body));
+        if(tokken !== null){
+            res.json(await orderConfirmed(tokken.access_token, client, req.body));
+        }
         return
     }) 
     app.post("/deleteOrder", async function(req, res){
