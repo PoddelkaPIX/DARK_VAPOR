@@ -41,7 +41,6 @@ export const SdekOrderForm: FC<PropTypes>=({order, setOrder, setLocalityData, lo
             })
             .then(function (response) {
                 if (response.data.errors !== undefined){  
-                    console.log(response.data);
                     alert(response.data.errors[0])
                 }else{
                     order.cost_of_delivery = response.data.delivery_sum

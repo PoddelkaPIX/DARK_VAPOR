@@ -36,9 +36,6 @@ export const OrganizationInformationModal: FC<PropTypes>=({onClose}) => {
         set_telephone(info.telephone)
         set_delivery_point_sdek(info.delivery_point_sdek)
         set_delivery_point_code_sdek(info.delivery_point_code_sdek)
-        console.log(info);
-        
-
     }
 
     function edit_name(){
@@ -47,8 +44,6 @@ export const OrganizationInformationModal: FC<PropTypes>=({onClose}) => {
     }
 
     function edit_locality(){
-        console.log(localityData?.data.city, localityData?.data.city_fias_id);
-        
         if (localityData?.data.city !== undefined && localityData?.data.city_fias_id != undefined){
             fetch(config.backend.host + config.backend.port + "/editLocality/"+localityData?.data.city+"/"+localityData?.data.city_fias_id)
             set_delivery_point_code_sdek(localityData?.data.city_fias_id)
