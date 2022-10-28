@@ -11,8 +11,8 @@ const config = require("../config.json")
 
 let paramsEdu = {
     "grant_type": config.sdek.grant_type,
-    "client_id": config.sdek.client_idEdu,
-    "client_secret": config.sdek.client_secretEdu
+    "client_id": config.sdek.client_id_edu,
+    "client_secret": config.sdek.client_secret_edu
 }
 let params = {
     "grant_type": config.sdek.grant_type,
@@ -30,26 +30,26 @@ async function getTokken(){
             "Access-Control-Allow-Origin": "*",
         }
     }).then(response => (response.json())
-    ).then(result =>{return result})
+    ).then(result =>{return result}).catch(result =>{console.log(result); return null})
 }
 
 async function getTokkenEdu(){
-    return await fetch(config.sdek.domenEdu + "/v2/oauth/token?" + quaryParamsEdu, { 
+    return await fetch(config.sdek_edu.domen_edu + "/v2/oauth/token?" + quaryParamsEdu, { 
          method: 'POST',
          headers: {
              "Content-Type": "application/x-www-form-urlencoded",
              "Access-Control-Allow-Origin": "*",
          }
      }).then(response => (response.json())
-     ).then(result =>{return result})
+     ).then(result =>{return result}).catch(result =>{console.log(result); return null})
  }
 
 const client = new Client({ 
-    user: 'postgres',
-    host: 'localhost',
-    database: 'dark_vapor',
-    password: 'admin',
-    port: 5432,
+    user: config.db.user,
+    host: config.db.host,
+    database: config.db.database,
+    password: config.db.password,
+    port: config.db.port,
 }); 
 
 client.connect(); 
@@ -139,43 +139,57 @@ module.exports = async function(app){
     // Сдэк
     app.get('/getRegionsSdek',async function(req, res) { 
         const tokken = await getTokken()
-        res.json(await getRegionsSdek(tokken.access_token))
+        if(tokken !== null){
+            res.json(await getRegionsSdek(tokken.access_token))
+        }
         return
     });
 
     app.get('/getCityesSdek/:regionCode',async function(req, res) { 
         const tokken = await getTokken()
-        res.json(await getCityesSdek(tokken.access_token, req.param("regionCode")))
+        if(tokken !== null){
+            res.json(await getCityesSdek(tokken.access_token, req.param("regionCode")))
+        }
         return
     });
 
     app.get('/getDeliverypointsSdek/:cityCode',async function(req, res) { 
         const tokken = await getTokken()
-        res.json(await getDeliverypointsSdek(req.param("cityCode"), tokken.access_token))
+        if(tokken !== null){
+            res.json(await getDeliverypointsSdek(req.param("cityCode"), tokken.access_token))
+        }
         return
     });
     app.get('/createReceiptSdek/:uuid',async function(req, res) { 
         const tokken = await getTokken()
-        const urlPfd = await createReceiptSdek(tokken.access_token, req.param("uuid"))
-        res.header('Authorization', "Bearer "+tokken);
-        res.redirect(urlPfd);
+        if(tokken !== null){
+            const urlPfd = await createReceiptSdek(tokken.access_token, req.param("uuid"))
+            res.header('Authorization', "Bearer "+tokken);
+            res.redirect(urlPfd);
+        }
         return
     });
     app.post('/calculateCostOfDeliverySdek', async function(req, res) { 
         const tokken = await getTokken()
-        res.json(await calculateDeliverySdek(tokken.access_token, req.body))
+        if(tokken !== null){
+            res.json(await calculateDeliverySdek(tokken.access_token, req.body))
+        }
         return
     });
   
      // Почта России
     app.get('/getDeliverypointsPochta/:address',async function(req, res) { 
         const tokken = await getTokken()
-        res.json(await getDeliverypointsPochta(req.param("address"), tokken.access_token))
+        if(tokken !== null){
+            res.json(await getDeliverypointsPochta(req.param("address"), tokken.access_token))
+        }
         return
     });
     app.post('/calculateCostOfDeliveryPochta', async function(req, res) { 
         const tokken = await getTokken()
-        res.json(await calculateDeliveryPochta(tokken.access_token, req.body))
+        if(tokken !== null){
+            res.json(await calculateDeliveryPochta(tokken.access_token, req.body))
+        }
         return
     });
     
