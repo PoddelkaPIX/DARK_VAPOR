@@ -21,7 +21,6 @@ export const OrganizationInformationModal: FC<PropTypes>=({onClose}) => {
     const [telephone, set_telephone] = useState("")
     const [delivery_point_sdek, set_delivery_point_sdek] = useState("")
     const [delivery_point_code_sdek, set_delivery_point_code_sdek] = useState("")
-    const [delivery_point_pochta, set_delivery_point_pochta] = useState("")
 
     const [localityData, setLocalityData] = useState<DaDataSuggestion<DaDataAddress>>();
     const [deliverypoints, setDeliverypoints] = useState<IDeliverypoint[]>([])

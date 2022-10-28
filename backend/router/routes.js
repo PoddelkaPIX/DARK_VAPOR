@@ -24,7 +24,7 @@ let quaryParamsEdu = new URLSearchParams(paramsEdu).toString();
 
 async function getTokken(){
     try{
-        return await fetch(config.sdek.domen + "/v2/oauth/token?" + quaryParams, { 
+        return fetch(config.sdek.domen + "/v2/oauth/token?" + quaryParams, { 
             method: 'POST',
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
@@ -38,7 +38,7 @@ async function getTokken(){
 }
 
 async function getTokkenEdu(){
-    return await fetch(config.sdek_edu.domen_edu + "/v2/oauth/token?" + quaryParamsEdu, { 
+    return fetch(config.sdek_edu.domen_edu + "/v2/oauth/token?" + quaryParamsEdu, { 
          method: 'POST',
          headers: {
              "Content-Type": "application/x-www-form-urlencoded",

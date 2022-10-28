@@ -79,7 +79,6 @@ export const MakingOrderModal: FC<PropTypes> = ({onClose, closingBackground, bas
         }else{
             setDisabledComplite(true)
         }
-        console.log(order);
     })
     return (
         <Modal onClose={onClose} closingBackground={closingBackground} cross={true}>
