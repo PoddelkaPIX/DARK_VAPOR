@@ -29,8 +29,8 @@ async function getTokken(){
             "Content-Type": "application/x-www-form-urlencoded",
             "Access-Control-Allow-Origin": "*",
         }
-    }).then(response => (response.json())
-    ).then(result =>{return result}).catch(result =>{console.log(result); return null})
+    }).then(response =>(response.json())
+    ).then(result =>{return result}).catch(function(err){console.log(err); return null})
 }
 
 async function getTokkenEdu(){
@@ -41,7 +41,7 @@ async function getTokkenEdu(){
              "Access-Control-Allow-Origin": "*",
          }
      }).then(response => (response.json())
-     ).then(result =>{return result}).catch(result =>{console.log(result); return null})
+     ).then(result =>{return result}).catch(function(err){console.log(err); return null})
  }
 
 const client = new Client({ 
