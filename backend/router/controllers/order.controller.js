@@ -1,7 +1,7 @@
 const {orderRegistration} = require('./sdek.controller')
 const config = require('../../config.json');
+const fetch = require("cross-fetch")
 module.exports.addOrder= async function (client, data){
-   
     const date = new Date().toLocaleString()
     let telegramMessage = ""
     let fields  = [
@@ -95,8 +95,11 @@ module.exports.addOrder= async function (client, data){
     fields.forEach(field => {
         telegramMessage += field + '%0A'
     });
- 
-    fetch(`https://api.telegram.org/bot${config.telegram.token}/sendMessage?chat_id=${config.telegram.chat}&parse_mode=html&text=${telegramMessage}`)
+    try{
+        fetch(`https://api.telegram.org/bot${config.telegram.token}/sendMessage?chat_id=${config.telegram.chat}&parse_mode=html&text=${telegramMessage}`)
+    }catch(err){
+        console.log(err);
+    }
 }
 
 module.exports.getOrders = async function (client){
