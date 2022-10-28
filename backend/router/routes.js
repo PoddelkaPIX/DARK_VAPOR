@@ -8,6 +8,7 @@ const { getCityesSdek, getRegionsSdek, getDeliverypointsSdek, calculateDeliveryS
 const { getDeliverypointsPochta, calculateDeliveryPochta } = require('./controllers/pochta.controller');
 const { getOrders, addOrder, orderConfirmed, deleteOrder } = require('./controllers/order.controller');
 const config = require("../config.json")
+const fetch = require("cross-fetch")
 
 let paramsEdu = {
     "grant_type": config.sdek.grant_type,
