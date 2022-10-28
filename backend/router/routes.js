@@ -113,7 +113,7 @@ module.exports = async function(app){
     });
     app.post("/orderConfirmed", async function(req, res){
         const tokken = await getTokken()
-        if(tokken !== null){
+        if(tokken.access_token !== undefined){
             res.json(await orderConfirmed(tokken.access_token, client, req.body));
         }
         return
@@ -145,7 +145,7 @@ module.exports = async function(app){
     // Сдэк
     app.get('/getRegionsSdek',async function(req, res) { 
         const tokken = await getTokken()
-        if(tokken !== null){
+        if(tokken.access_token !== undefined){
             res.json(await getRegionsSdek(tokken.access_token))
         }
         return
@@ -153,7 +153,7 @@ module.exports = async function(app){
 
     app.get('/getCityesSdek/:regionCode',async function(req, res) { 
         const tokken = await getTokken()
-        if(tokken !== null){
+        if(tokken.access_token !== undefined){
             res.json(await getCityesSdek(tokken.access_token, req.param("regionCode")))
         }
         return
@@ -161,14 +161,14 @@ module.exports = async function(app){
 
     app.get('/getDeliverypointsSdek/:cityCode',async function(req, res) { 
         const tokken = await getTokken()
-        if(tokken !== null){
+        if(tokken.access_token !== undefined){
             res.json(await getDeliverypointsSdek(req.param("cityCode"), tokken.access_token))
         }
         return
     });
     app.get('/createReceiptSdek/:uuid',async function(req, res) { 
         const tokken = await getTokken()
-        if(tokken !== null){
+        if(tokken.access_token !== undefined){
             const urlPfd = await createReceiptSdek(tokken.access_token, req.param("uuid"))
             res.header('Authorization', "Bearer "+tokken);
             res.redirect(urlPfd);
@@ -177,7 +177,7 @@ module.exports = async function(app){
     });
     app.post('/calculateCostOfDeliverySdek', async function(req, res) { 
         const tokken = await getTokken()
-        if(tokken !== null){
+        if(tokken.access_token !== undefined){
             res.json(await calculateDeliverySdek(tokken.access_token, req.body))
         }
         return
@@ -186,14 +186,14 @@ module.exports = async function(app){
      // Почта России
     app.get('/getDeliverypointsPochta/:address',async function(req, res) { 
         const tokken = await getTokken()
-        if(tokken !== null){
+        if(tokken.access_token !== undefined){
             res.json(await getDeliverypointsPochta(req.param("address"), tokken.access_token))
         }
         return
     });
     app.post('/calculateCostOfDeliveryPochta', async function(req, res) { 
         const tokken = await getTokken()
-        if(tokken !== null){
+        if(tokken.access_token !== undefined){
             res.json(await calculateDeliveryPochta(tokken.access_token, req.body))
         }
         return
