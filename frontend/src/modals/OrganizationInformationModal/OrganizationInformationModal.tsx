@@ -16,8 +16,8 @@ export const OrganizationInformationModal: FC<PropTypes>=({onClose}) => {
     const [delivery_point_sdek_editing, set_delivery_point_sdek_editing] = useState(false)
 
     const [name, set_name] = useState("")
-    const [locality, set_locality] = useState("")
-    const [locality_fias_id, set_locality_fias_id] = useState("")
+    const [, set_locality] = useState("")
+    const [, set_locality_fias_id] = useState("")
     const [telephone, set_telephone] = useState("")
     const [delivery_point_sdek, set_delivery_point_sdek] = useState("")
     const [delivery_point_code_sdek, set_delivery_point_code_sdek] = useState("")
@@ -43,6 +43,7 @@ export const OrganizationInformationModal: FC<PropTypes>=({onClose}) => {
     }
 
     function edit_locality(){
+        // eslint-disable-next-line eqeqeq
         if (localityData?.data.city !== undefined && localityData?.data.city_fias_id != undefined){
             fetch(config.backend.host + config.backend.port + "/editLocality/"+localityData?.data.city+"/"+localityData?.data.city_fias_id)
             set_delivery_point_code_sdek(localityData?.data.city_fias_id)
@@ -57,11 +58,6 @@ export const OrganizationInformationModal: FC<PropTypes>=({onClose}) => {
 
     function edit_delivery_point_sdek(){
         fetch(config.backend.host + config.backend.port + "/editDeliveryPointSdek/"+delivery_point_sdek+"/"+delivery_point_code_sdek)
-        forceUpdate()
-    }
-
-    function edit_delivery_point_pochta(){
-        fetch(config.backend.host + config.backend.port + "/editDeliveryPointPochta/"+delivery_point_sdek)
         forceUpdate()
     }
 
@@ -80,6 +76,7 @@ export const OrganizationInformationModal: FC<PropTypes>=({onClose}) => {
     }
     useEffect(()=>{
         fetch(config.backend.host + config.backend.port + "/getInformation").then(res=>res.json()).then((result)=>{fill_fields(result); getDeliverypoints(result.locality_fias_id)})
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [forceUpdate, _count])
     
     return (

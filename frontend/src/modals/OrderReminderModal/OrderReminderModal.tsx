@@ -12,7 +12,6 @@ export const OrderReminderModal: FC<PropTypes>=({onClose, order}) => {
     let timer: string | number | NodeJS.Timeout | undefined
     let x = 15
     function countdown(){  // функция обратного отсчета
-        console.log(x);
         x--
         setBlockingTime(x)
         if (x<=0){
@@ -24,9 +23,8 @@ export const OrderReminderModal: FC<PropTypes>=({onClose, order}) => {
         }
     }
     useEffect(()=>{
-        console.log(order);
-        
         countdown()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (

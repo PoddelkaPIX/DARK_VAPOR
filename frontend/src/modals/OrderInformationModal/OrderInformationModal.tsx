@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import { IOrder } from "../../structs";
 import st from "./OrderInformationModal.module.scss"
 interface PropTypes{
@@ -7,19 +7,8 @@ interface PropTypes{
 }
 
 export const OrderInformationModal: FC<PropTypes> = ({onClose, order})=>{
-    const [totalAmount, setTotalAmount] = useState(updateTotalAmount())
     document.body.style.overflowY = "hidden"
-    
-    function updateTotalAmount(){
-        let c = 0
-        for (let i of order.products){
-            if (i.count !== undefined){
-                c += i.price * i.count
-            }
-        }
-        return c
-    }
-    
+
     return (
         <div id={st["order-information-modal"]} >
             <h2><strong>Информация</strong></h2>

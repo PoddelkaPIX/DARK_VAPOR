@@ -5,7 +5,7 @@ import st from "./MakingOrderModal.module.scss"
 import config from "../../config.json"
 import { IBasket, IDeliverypoint, IOrder} from "../../structs";
 import { SdekOrderForm } from "../../components/forms/SdekOrderForm/SdekOrderForm";
-import { AddressSuggestions, DaDataAddress, DaDataSuggestion } from "react-dadata";
+import { DaDataAddress, DaDataSuggestion } from "react-dadata";
 interface PropTypes{
     closingBackground: boolean
     onClose: ()=>void
@@ -22,7 +22,7 @@ export const MakingOrderModal: FC<PropTypes> = ({onClose, closingBackground, bas
     const [localityData, setLocalityData] = useState<DaDataSuggestion<DaDataAddress>>();
     const [warning, setWarning] = useState("");
 
-    const [_count, forceUpdate] = useReducer(x => x + 1, 0);
+    const [, forceUpdate] = useReducer(x => x + 1, 0);
 
     let weight = 0
     for (let i=0; i < Math.ceil(basket.products.length / 4); i++){
@@ -35,6 +35,7 @@ export const MakingOrderModal: FC<PropTypes> = ({onClose, closingBackground, bas
 
     
     function ValidPhone(telephone: string) {
+        // eslint-disable-next-line no-useless-escape
         var re = /^[\d\+][\d\(\)\ -]{4,14}\d$/;
         var valid = re.test(telephone);
         if (valid) {

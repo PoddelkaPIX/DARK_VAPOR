@@ -4,7 +4,6 @@ import { AddTypeModal } from "../../modals/AddTypeModal/AddTypeModal"
 import { AdminProductList } from "../../components/common/AdminProductList/AdminProductList"
 import config from "../../config.json"
 import { IProduct } from "../../structs"
-import { ConfirmDialog } from "../../components/common/ConfirmDialog/ConfirmDialog"
 
 export interface IParameter{
     parameter_id: number
@@ -33,7 +32,6 @@ interface PropTypes{
 
 export const Admin: FC<PropTypes> = ({authorized}) => {   
     const [addTypeModal, setAddTypeModal] = useState(false)
-    const [confirmDialogAddType, setConfirmDialogAddType] = useState(false)
 
     const [productList, setProductList ] = useState<IProductAndType[]>([])
     const [flagUpdate, setFlagUpdate ] = useState(1)
