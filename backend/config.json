@@ -18,7 +18,7 @@
     "telegram": {
       "token": "5768150484:AAGNJPtjpOKk9Dd4lPDkGf9yLsgC7Kdddrw",
       "chat_test": "-762303192",
-      "chat": "-1807202460"
+      "chat": "-1001807202460"
     },
     "db": {
       "user": "postgres",
