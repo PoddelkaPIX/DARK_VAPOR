@@ -76,7 +76,11 @@ export const SdekOrderForm: FC<PropTypes>=({order, setOrder, setLocalityData, lo
     return (
         <div id={st["delivery-sdek-forma"]}>
             <label>Ваш город
-                <AddressSuggestions filterLocationsBoost={[]} token="e2e60336d7b861dd95c3ee3d08e81546b51a8afe" value={localityData} onChange={(suggestion: any )=>{setLocalityData(suggestion); setDeliverypoints([]); order.city=""; order.delivery_point=""; order.delivery_point_code=""; order.cost_of_delivery = 0; setOrder(order); forceUpdate()}} />
+                <AddressSuggestions filterLocationsBoost={[]} filterLocations={[
+                    { "country": "Россия" },
+                    { "country": "Казахстан" },
+                    { "country": "Беларусь" }
+                ]} token="e2e60336d7b861dd95c3ee3d08e81546b51a8afe" value={localityData} onChange={(suggestion: any )=>{setLocalityData(suggestion); console.log(suggestion); setDeliverypoints([]); order.city=""; order.delivery_point=""; order.delivery_point_code=""; order.cost_of_delivery = 0; setOrder(order); forceUpdate()}} />
             </label> 
             <label>Пункт выдачи
                 <select disabled={disabledDeliveryPointSelect} onChange={(e)=>{order.delivery_point = e.target.options[e.target.selectedIndex].text; order.delivery_point_code = e.target.value; setOrder(order); calculateCostOfDelivery(); modalForceUpdate()}}>  

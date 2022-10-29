@@ -38,6 +38,8 @@ export const MakingOrderModal: FC<PropTypes> = ({onClose, closingBackground, bas
         // eslint-disable-next-line no-useless-escape
         var re = /^[\d\+][\d\(\)\ -]{4,14}\d$/;
         var valid = re.test(telephone);
+        console.log(valid);
+        
         if (valid) {
             setWarning("")
         }else{
