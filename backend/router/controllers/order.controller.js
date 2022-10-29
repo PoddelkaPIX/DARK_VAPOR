@@ -163,11 +163,10 @@ module.exports.getOrders = async function (client){
 } 
 
 module.exports.orderConfirmed = async function (tokken, client, data){
-    console.log("data", data);
-    const uuid = await orderRegistration(tokken, data)
-    
-    if (uuid != null){
-        fetch(`https://api.telegram.org/bot${config.telegram.token}/sendMessage?chat_id=${config.telegram.chat}&parse_mode=html&text=${"Заказ под номером " +  data.order.order_id +" подтверждён%0Auuid: " + uuid}`)
+    const order_info = await orderRegistration(tokken, data)
+    console.log(order_info);
+    if (order_info.uuid != null && order_info.cdek_number != null){
+        fetch(`https://api.telegram.org/bot${config.telegram.token}/sendMessage?chat_id=${config.telegram.chat}&parse_mode=html&text=${"Заказ под номером " +  data.order.order_id +" подтверждён%0Auuid: " + order_info.uuid+"%0AНомер квитанции: " + order_info.cdek_number}`)
         await client.query(`UPDATE "order" SET
             confirmed = true,
             uuid = $1
@@ -179,6 +178,11 @@ module.exports.orderConfirmed = async function (tokken, client, data){
         return {
             "confirmed": true,
             "uuid": uuid
+        }
+    }else{
+        return {
+            "confirmed": false,
+            "uuid": null
         }
     }
 }

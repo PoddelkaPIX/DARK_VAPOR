@@ -1,20 +1,20 @@
 const axios = require("axios")
 const config = require("../../config.json")
-module.exports.getRegionsSdek = async function(tokken){
-    url = config.sdek.domen + "/v2/location/regions?country_codes=RU"
-    let data = await axios({
-        method: 'get',
-        url: url,
-        headers: { "Authorization": "Bearer "+tokken },
-    })
-    .then(function (response) {
-        return response.data
-    })
-    .catch(function (error) {
-        return error;
-    });
-    return data
-}
+// module.exports.getRegionsSdek = async function(tokken){
+//     url = config.sdek.domen + "/v2/location/regions?country_codes=RU"
+//     let data = await axios({
+//         method: 'get',
+//         url: url,
+//         headers: { "Authorization": "Bearer "+tokken },
+//     })
+//     .then(function (response) {
+//         return response.data
+//     })
+//     .catch(function (error) {
+//         return error;
+//     });
+//     return data
+// }
 
 module.exports.getCityesSdek = async function(tokken, regionCode){
     url = config.sdek.domen + "/v2/location/cities/?region_code="+regionCode
@@ -99,6 +99,7 @@ module.exports.calculateDeliverySdek = async function(tokken, dataJSON){
     return data
 }
 module.exports.orderRegistration = async function(tokken, dataJSON){
+    console.log("dataJSON", dataJSON);
     sdekPrducts = []
     for (let product of dataJSON.order.products){
         sdekPrducts.push(
@@ -117,7 +118,7 @@ module.exports.orderRegistration = async function(tokken, dataJSON){
     let orderRegistrationBody = {
         "type": 1,
         "tariff_code": dataJSON.adminInformation.tariff_code,
-        "comment": "Новый заказ",
+        "comment": "Автоматически сознанный заказ",
         "shipment_point": dataJSON.adminInformation.delivery_point_code_sdek, 
         "delivery_point": dataJSON.order.delivery_point_code,
         "sender": {
@@ -130,7 +131,7 @@ module.exports.orderRegistration = async function(tokken, dataJSON){
             ]
         },
         "recipient": {
-            "name": dataJSON.order.last_name + " " + dataJSON.order.first_name + " " + dataJSON.order.patronimyc,
+            "name": dataJSON.order.last_name + " " + dataJSON.order.first_name + " " + dataJSON.order.patronymic,
             "phones": [
                 {
                     "number": dataJSON.order.telephone
@@ -148,10 +149,13 @@ module.exports.orderRegistration = async function(tokken, dataJSON){
             }
         ]
     }
-    url = config.sdek.domen + "/v2/orders"
+    console.log("orderRegistrationBody", orderRegistrationBody);
+    console.log("orderRegistrationBody.sender", orderRegistrationBody.sender);
+    console.log("orderRegistrationBody.recipient", orderRegistrationBody.recipient);
+
     let uuid = await axios({
         method: 'post',
-        url: url,
+        url: config.sdek.domen + "/v2/orders",
         headers: { "Authorization": "Bearer "+tokken },
         data: orderRegistrationBody
     }).then(function (response) {
@@ -162,5 +166,17 @@ module.exports.orderRegistration = async function(tokken, dataJSON){
         console.log(error.response.data.requests[0].errors);
        return null
     });
-    return uuid
+    let cdek_number = await axios({
+        method: 'get',
+        url: config.sdek.domen+"/v2/orders/"+uuid,
+        headers: { "Authorization": "Bearer "+tokken },
+    }).then(function (response) {
+        return response.data.entity.cdek_number
+    }).catch(function (error) {
+       return null
+    });
+    return {
+        "uuid": uuid,
+        "cdek_number": cdek_number
+    }
 }

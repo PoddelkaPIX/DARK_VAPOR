@@ -27,8 +27,8 @@ INSERT INTO public."default_parameter_values" ("parameter_id", "default_paramete
 INSERT INTO public."default_parameter_values" ("parameter_id", "default_parameter_value") VALUES (1, '6');
 INSERT INTO public."default_parameter_values" ("parameter_id", "default_parameter_value") VALUES (1, '9');
 INSERT INTO public."default_parameter_values" ("parameter_id", "default_parameter_value") VALUES (1, '12');
-INSERT INTO public."default_parameter_values" ("parameter_id", "default_parameter_value") VALUES (2, '10');
 INSERT INTO public."default_parameter_values" ("parameter_id", "default_parameter_value") VALUES (2, '20');
+INSERT INTO public."default_parameter_values" ("parameter_id", "default_parameter_value") VALUES (2, '20 hard');
 INSERT INTO public."default_parameter_values" ("parameter_id", "default_parameter_value") VALUES (3, 'Сталь');
 INSERT INTO public."default_parameter_values" ("parameter_id", "default_parameter_value") VALUES (3, 'Кантал');
 INSERT INTO public."default_parameter_values" ("parameter_id", "default_parameter_value") VALUES (3, 'Нихром');
