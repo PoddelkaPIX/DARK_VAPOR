@@ -1,6 +1,6 @@
 {
     "backend": {
-      "host2": "http://localhost:",
+      "host_test": "http://localhost:",
       "host": "http://62.217.178.86:",
       "port": "8000"
     }

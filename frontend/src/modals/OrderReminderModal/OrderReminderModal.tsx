@@ -38,9 +38,9 @@ export const OrderReminderModal: FC<PropTypes>=({onClose, order}) => {
                 <hr />
                 <p><strong>!!!В поле комментарий ни чего не указывать!!!</strong></p>
                 <hr />
-                <p>Переведите сумму на указаный номер и ждите когда с вами свяжутся.</p>
-                <p>Скриншот с доказательством перевода, отправте в нашу группу <a href="https://vk.com/darkvapor">https://vk.com/darkvapor</a></p>
-               
+                <p>Переведите указанную сумму на номер.</p>
+                <p>Скриншот с доказательством перевода, отправьте в личные сообщения группы <a href="https://vk.com/darkvapor">https://vk.com/darkvapor</a>.</p>
+                <p>Ожидайте подтверждения заказа.</p>
             </div>
             <div>
                 <button id={st["confirmed"]} onClick={()=>{onClose(); window.location.replace("/")}} disabled={disabledConfirm}>Понял. Больше не показывать. {blockingTime !== 0 && <label>({blockingTime})</label>}</button>

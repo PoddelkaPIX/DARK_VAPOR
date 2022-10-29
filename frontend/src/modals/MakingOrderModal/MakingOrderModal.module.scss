@@ -7,7 +7,7 @@
     gap: 5px;
     padding: 5px;
     width: 950px;
-    max-height: 90vh;
+    max-height: 80vh;
     max-width: 80vw;
     overflow:overlay;
     scrollbar-width: none;
@@ -173,6 +173,10 @@
         #making-order-forma{
             gap: 5px;
         }
+        #total-amount{
+            top: 100%;
+            bottom: auto;
+        }
     }
 }
 
@@ -181,6 +185,7 @@
         max-width: 96vw;
         display: flex;
         flex-direction: column;
+        padding-bottom: 20px;
         label{
             display: flex;
             flex-direction: column;
@@ -198,14 +203,6 @@
                 width: 97% !important;
             }
         }
-        #total-amount{
-            padding: 4px;
-            background-color: #295ccb;
-            border-radius: 4px;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-        }
+        
     }
 }
