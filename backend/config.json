@@ -1,5 +1,4 @@
 {
-    "debug": true,
     "sdek": {
       "grant_type": "client_credentials",
       "client_id": "ws8tYmGzeGWfHTa9PLXt6xX2KeJyXL5N",
@@ -18,8 +17,8 @@
     },
     "telegram": {
       "token": "5768150484:AAGNJPtjpOKk9Dd4lPDkGf9yLsgC7Kdddrw",
-      "chat": "-762303192",
-      "chat_test": "-1001807202460"
+      "chat_test": "-762303192",
+      "chat": "-1001807202460"
     },
     "db": {
       "user": "postgres",
