@@ -209,3 +209,22 @@ module.exports.orderRegistration = async function(tokken, dataJSON){
         "cdek_number": cdek_number.data, 
     }
 }
+
+module.exports.getOrderInformationSdek = async function(tokken, uuid){
+    let sdek_number = await axios({
+        method: 'get',
+        url: config.sdek.domen + "/v2/orders/"+uuid,
+        headers: { "Authorization": "Bearer "+tokken },
+    }).then(function (response) {
+        return {
+            "data": response.data.entity.cdek_number,
+            "error": null
+        }
+    }).catch(function (error) {
+        return {
+            "data": null,
+            "error": error
+        }
+    });
+    return sdek_number
+}

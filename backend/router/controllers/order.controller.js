@@ -1,24 +1,10 @@
 const {orderRegistration} = require('./sdek.controller')
+const {getOrderInformationSdek} = require("./sdek.controller")
 const config = require('../../config.json');
 const fetch = require("cross-fetch")
 module.exports.addOrder= async function (client, data){
     const date = new Date().toLocaleString()
     let telegramMessage = ""
-    let fields  = [
-        '<b>ФИО</b>: ' + data.last_name + " " + data.first_name + " " + data.patronymic,
-        '<b>Телефон</b>: ' + data.telephone,
-        '<b>Соц. сеть</b>: ' + data.feedback_URL,
-        '<b>Сообщение</b>: ' + data.message,
-        '<b>Служба доставки</b>: ' + "<strong>" + data.delivery + "</strong>",
-        '<b>Страна</b>: ' + data.country,
-        '<b>Регион</b>: ' + data.region,
-        '<b>Город</b>: ' + data.location,
-        '<b>Пункт выдачи</b>: ' + data.delivery_point,
-        '<b>Стоимость товаров</b>: ' + "<strong>" + data.cost_of_products + " ₽" + "</strong>",
-        '<b>Стоимость доставки</b>: ' + "<strong>" + data.cost_of_delivery + " ₽" + "</strong>",
-        '<b>Общая сумма</b>: ' + "<strong>" + String(Number(data.cost_of_products)+Number(data.cost_of_delivery)) + " ₽" + "</strong>",
-        '<b>Товары</b>: ',
-    ]
     let order_id =await client.query(`INSERT 
                         INTO "order"(
                             last_name, 
@@ -58,6 +44,22 @@ module.exports.addOrder= async function (client, data){
                             date
                         ])
     order_id = order_id.rows[0].order_id
+    let fields  = [
+        '<b>Номер заказа</b>: ' + order_id,
+        '<b>ФИО</b>: ' + data.last_name + " " + data.first_name + " " + data.patronymic,
+        '<b>Телефон</b>: ' + data.telephone,
+        '<b>Соц. сеть</b>: ' + data.feedback_URL,
+        '<b>Сообщение</b>: ' + data.message,
+        '<b>Служба доставки</b>: ' + "<strong>" + data.delivery + "</strong>",
+        '<b>Страна</b>: ' + data.country,
+        '<b>Регион</b>: ' + data.region,
+        '<b>Город</b>: ' + data.location,
+        '<b>Пункт выдачи</b>: ' + data.delivery_point,
+        '<b>Стоимость товаров</b>: ' + "<strong>" + data.cost_of_products + " ₽" + "</strong>",
+        '<b>Стоимость доставки</b>: ' + "<strong>" + data.cost_of_delivery + " ₽" + "</strong>",
+        '<b>Общая сумма</b>: ' + "<strong>" + String(Number(data.cost_of_products)+Number(data.cost_of_delivery)) + " ₽" + "</strong>",
+        '<b>Товары</b>: ',
+    ]
     let index = 0
     for (let product of data.products){
         index += 1
@@ -171,8 +173,9 @@ module.exports.getOrders = async function (client){
 
 module.exports.orderConfirmed = async function (tokken, client, data){
     const order_info = await orderRegistration(tokken, data)
+    const sdek_number = await getOrderInformationSdek(tokken, order_info.uuid)
     if (order_info.uuid != null && order_info.cdek_number != null){
-        fetch(`https://api.telegram.org/bot${config.telegram.token}/sendMessage?chat_id=${config.telegram.chat}&parse_mode=html&text=${"Заказ под номером " +  data.order.order_id +" подтверждён%0Auuid: " + order_info.uuid+"%0AНомер квитанции: " + order_info.cdek_number}`)
+        fetch(`https://api.telegram.org/bot${config.telegram.token}/sendMessage?chat_id=${config.telegram.chat}&parse_mode=html&text=${"Заказ под номером " +  data.order.order_id +" подтверждён%0Auuid: " + order_info.uuid+"%0AНомер квитанции: " + sdek_number.data}`)
         await client.query(`UPDATE "order" SET
             confirmed = true,
             uuid = $1
