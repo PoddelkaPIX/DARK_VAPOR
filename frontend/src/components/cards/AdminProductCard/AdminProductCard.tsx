@@ -4,7 +4,7 @@ import { useState } from "react";
 import axios from "axios";
 import { EditProductModal } from "../../../modals/EditProductModal/EditProductModal";
 import config from "../../../config.json"
-import { IProduct } from "../../../structs";
+import { IProduct } from "../../../interfaces";
 import { ConfirmDialog } from "../../common/ConfirmDialog/ConfirmDialog";
 interface PropTypes{
     product: IProduct
@@ -17,7 +17,7 @@ export const AdminProductCard: FC<PropTypes>=({product, flagUpdate}) => {
 
     function deleteProduct(){
         const productId = product.product_id.toString()
-        let url = config.backend.host + config.backend.port + "/deleteProduct"
+        let url = config.backend + "/deleteProduct"
         let body = {"product_id": productId}
         axios({
             method: 'post',

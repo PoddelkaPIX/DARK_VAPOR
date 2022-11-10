@@ -14,7 +14,7 @@ export const Login: FC<PropTypes>= ({authorized}) => {
         window.location.replace("/")
     }
     function complite(){
-        let url = config.backend.host + config.backend.port + "/login"
+        let url = config.backend + "/login"
         let body = {"login": login, "password": password}
         axios({
             method: 'post',

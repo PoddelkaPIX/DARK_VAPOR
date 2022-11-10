@@ -25,7 +25,7 @@
     select{
         color: rgb(255, 255, 255);
         background-color: #9b9b9b;
-        height: 25px;
+        height: 30px;
         border-radius: 4px;
         width: 100%;
         border: 2px solid rgb(138, 138, 138);
@@ -34,7 +34,7 @@
         }
     }
     input{
-        height: 25px;
+        height: 20px;
         border-radius: 4px;
         border: 2px solid rgb(198, 198, 198);
     }
@@ -146,6 +146,7 @@
                 justify-content: space-between;
                 gap: 10px;
                 white-space:nowrap;
+                text-align:start;
             }
             #delivery-select{
                 width: 40%;

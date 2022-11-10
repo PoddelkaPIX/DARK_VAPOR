@@ -17,21 +17,26 @@ module.exports.checkAuthorized = async function(client, data){
 }
 
 module.exports.getInformation = async function(client){
-    let res = await client.query(`SELECT "name", "locality", "locality_fias_id", "tariff_code", "telephone", "delivery_point_sdek", "delivery_point_code_sdek", "delivery_point_pochta", "delivery_point_code_pochta"  FROM admin` )
+    let res = await client.query(`SELECT "name", "country", "country_code", "location", "region", "tariff_code", "telephone", "delivery_point_sdek", "delivery_point_code_sdek", "delivery_point_pochta", "delivery_point_code_pochta"  FROM admin` )
     if (res.rows.length === 0){
         return {}
     }
     
     return {
-        "name": res.rows[0].name,
-        "locality": res.rows[0].locality,
-        "locality_fias_id": res.rows[0].locality_fias_id,
-        "tariff_code": res.rows[0].tariff_code,
-        "telephone": res.rows[0].telephone,
-        "delivery_point_sdek": res.rows[0].delivery_point_sdek,
-        "delivery_point_code_sdek": res.rows[0].delivery_point_code_sdek,
-        "delivery_point_pochta": res.rows[0].delivery_point_pochta,
-        "delivery_point_code_pochta": res.rows[0].delivery_point_code_pochta,
+        "data": {
+            "name": res.rows[0].name,
+            "country": res.rows[0].country,
+            "country_code": res.rows[0].country_code,
+            "location": res.rows[0].location,
+            "region": res.rows[0].region,
+            "tariff_code": res.rows[0].tariff_code,
+            "telephone": res.rows[0].telephone,
+            "delivery_point_sdek": res.rows[0].delivery_point_sdek,
+            "delivery_point_code_sdek": res.rows[0].delivery_point_code_sdek,
+            "delivery_point_pochta": res.rows[0].delivery_point_pochta,
+            "delivery_point_code_pochta": res.rows[0].delivery_point_code_pochta,
+        },
+        "error": null
     }
 }
 
@@ -39,10 +44,12 @@ module.exports.editName = async function(client, name){
     await client.query(`UPDATE admin SET
                                     name = $1`, [name])
 }
-module.exports.editLocality = async function(client, locality, fias_id){
+module.exports.editLocality = async function(client, country, country_code, location, region){
     await client.query(`UPDATE admin SET
-                                    locality_fias_id = $1,
-                                    locality = $2`, [fias_id, locality])
+                        country = $1,
+                        country_code = $2,
+                        location = $3,
+                        region = $4`, [country, country_code , location, region])
 }
 module.exports.editTelephone = async function(client, telephone){
     await client.query(`UPDATE admin SET

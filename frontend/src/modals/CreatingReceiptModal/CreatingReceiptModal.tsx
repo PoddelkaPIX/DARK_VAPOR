@@ -1,7 +1,7 @@
 import axios from "axios";
 import { FC, useEffect, useState } from "react";
 import { Modal } from "../../components/common/Modal/Modal";
-import { IInformation, IOrder } from "../../structs";
+import { IInformation, IOrder } from "../../interfaces";
 import config from "../../config.json"
 
 

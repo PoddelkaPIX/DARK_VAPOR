@@ -3,7 +3,7 @@ import st from "./Admin.module.scss"
 import { AddTypeModal } from "../../modals/AddTypeModal/AddTypeModal"
 import { AdminProductList } from "../../components/common/AdminProductList/AdminProductList"
 import config from "../../config.json"
-import { IProduct } from "../../structs"
+import { IProduct } from "../../interfaces"
 
 export interface IParameter{
     parameter_id: number
@@ -37,7 +37,7 @@ export const Admin: FC<PropTypes> = ({authorized}) => {
     const [flagUpdate, setFlagUpdate ] = useState(1)
     
     useEffect(()=>{
-        fetch(config.backend.host + config.backend.port + "/products").then(res=>res.json()).then((result)=>setProductList(result))   
+        fetch(config.backend + "/products").then(res=>res.json()).then((result)=>setProductList(result))   
     }, [flagUpdate])
    
     return (

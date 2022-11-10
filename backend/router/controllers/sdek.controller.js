@@ -1,20 +1,6 @@
 const axios = require("axios")
 const config = require("../../config.json")
-// module.exports.getRegionsSdek = async function(tokken){
-//     url = config.sdek.domen + "/v2/location/regions?country_codes=RU"
-//     let data = await axios({
-//         method: 'get',
-//         url: url,
-//         headers: { "Authorization": "Bearer "+tokken },
-//     })
-//     .then(function (response) {
-//         return response.data
-//     })
-//     .catch(function (error) {
-//         return error;
-//     });
-//     return data
-// }
+const fetch = require("cross-fetch")
 
 module.exports.getCityesSdek = async function(tokken, regionCode){
     url = config.sdek.domen + "/v2/location/cities/?region_code="+regionCode
@@ -24,57 +10,88 @@ module.exports.getCityesSdek = async function(tokken, regionCode){
         headers: { "Authorization": "Bearer "+tokken },
     })
     .then(function (response) {
-        return response.data
+        return {
+            "data": response.data,
+            "error": null
+        }
     })
     .catch(function (error) {
-        return error;
+        return {
+            "data": null,
+            "error": error
+        }
     });
     return data
 }
-async function getCitySdek(tokken, fias_id){
-    url = config.sdek.domen + "/v2/location/cities/?fias_guid="+fias_id
+async function getCitySdek(tokken, location, country_code, region_name){
+    url = config.sdek.domen+"/v2/location/cities/?city="+location+"&country_codes="+country_code
+    let data = await fetch(url, { 
+        method: 'get',
+        headers: {
+            "Authorization": "Bearer "+tokken
+        }
+    }).then(response =>(response.json())).then(result =>{
+        for (let i of result){
+            let a = i.region.toLowerCase()
+            if (a.includes(region_name.toLowerCase())){
+                return {
+                    "data": i,
+                    "error": null
+                }
+            }
+        }
+        return {
+            "data": {
+                code: 0
+            },
+            "error": "Нет такого города"
+        }
+        
+    }).catch(function (error) {
+        return {
+            "data": null,
+            "error": error
+        }
+    }); 
+    return data
+}
+
+module.exports.getDeliverypointsSdek = async function(tokken, location, country_code, region_name){
+    const location_code = await getCitySdek(tokken, location, country_code, region_name)
+    let url = config.sdek.domen+"/v2/deliverypoints?city_code="+location_code.data.code+"&is_handout=true&is_reception=true"
     let data = await axios({
         method: 'get',
         url: url,
         headers: { "Authorization": "Bearer "+tokken },
     })
     .then(function (response) {
-        return response.data[0]
+        return {
+            "data": response.data,
+            "error": null
+        }
     })
     .catch(function (error) {
-        return error;
+        return {
+            "data": null,
+            "error": error
+        }
     });
-    return data
-}
-
-module.exports.getDeliverypointsSdek = async function(city_fias_id, tokken){
-    url = config.sdek.domen + "/v2/deliverypoints?fias_guid="+city_fias_id+"&is_handout=true&is_reception=true"
-    let data = await axios({
-        method: 'get',
-        url: url,
-        headers: { "Authorization": "Bearer "+tokken },
-    })
-    .then(function (response) {
-        return response.data
-    })
-    .catch(function (error) {
-        return error;
-    });
-
     return data
 }
 
 module.exports.calculateDeliverySdek = async function(tokken, dataJSON){
-    const from_location_code = await getCitySdek(tokken, dataJSON.from_location_fias_id) 
-    const to_location_code = await getCitySdek(tokken, dataJSON.to_location_fias_id) 
+    console.log(dataJSON);
+    const from_location_code = await getCitySdek(tokken, dataJSON.from_location, dataJSON.from_country_code, dataJSON.from_region) 
+    const to_location_code = await getCitySdek(tokken, dataJSON.to_location, dataJSON.to_country_code, dataJSON.to_region) 
+   
     body = {
         "currency": "1",
         "tariff_code": Number(dataJSON.tariff_code),
         "from_location": {
-            "code": from_location_code.code
+            "code": from_location_code.data.code
         },
         "to_location": {
-            "code": to_location_code.code
+            "code": to_location_code.data.code
         },
         "packages": [
             {
@@ -82,7 +99,7 @@ module.exports.calculateDeliverySdek = async function(tokken, dataJSON){
             }
         ]
     }
-    url = config.sdek.domen + "/v2/calculator/tariff"
+    let url = config.sdek.domen + "/v2/calculator/tariff"
     let data = await axios({
         method: 'post',
         url: url,
@@ -90,16 +107,21 @@ module.exports.calculateDeliverySdek = async function(tokken, dataJSON){
         data: body
     })
     .then(function (response) {
-        return response.data
+        return {
+            "data": response.data,
+            "error": null
+        }
     })
     .catch(function (error) {
-        return error;
+        return {
+            "data": null,
+            "error": error
+        }
     });
 
     return data
 }
 module.exports.orderRegistration = async function(tokken, dataJSON){
-    console.log("dataJSON", dataJSON);
     sdekPrducts = []
     for (let product of dataJSON.order.products){
         sdekPrducts.push(
@@ -149,34 +171,41 @@ module.exports.orderRegistration = async function(tokken, dataJSON){
             }
         ]
     }
-    console.log("orderRegistrationBody", orderRegistrationBody);
-    console.log("orderRegistrationBody.sender", orderRegistrationBody.sender);
-    console.log("orderRegistrationBody.recipient", orderRegistrationBody.recipient);
-
     let uuid = await axios({
         method: 'post',
         url: config.sdek.domen + "/v2/orders",
         headers: { "Authorization": "Bearer "+tokken },
         data: orderRegistrationBody
     }).then(function (response) {
-        console.log("Регистрация заказа - response", response.data);
-        return response.data.entity.uuid
+        return {
+            "data": response.data.entity.uuid,
+            "error": null
+        }
     }).catch(function (error) {
-        console.log("Регистрация заказа ошибка- error");
-        console.log(error.response.data.requests[0].errors);
-       return null
+        return {
+            "data": null,
+            "error": error
+        }
     });
+
     let cdek_number = await axios({
         method: 'get',
-        url: config.sdek.domen+"/v2/orders/"+uuid,
+        url: config.sdek.domen+"/v2/orders/"+uuid.data,
         headers: { "Authorization": "Bearer "+tokken },
     }).then(function (response) {
-        return response.data.entity.cdek_number
+        return {
+            "data": response.data.entity.uuid,
+            "error": null
+        }
     }).catch(function (error) {
-       return null
+       return {
+        "data": null,
+        "error": error
+    }
     });
+
     return {
-        "uuid": uuid,
-        "cdek_number": cdek_number
+        "uuid": uuid.data,
+        "cdek_number": cdek_number.data, 
     }
 }

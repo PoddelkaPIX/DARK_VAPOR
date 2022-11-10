@@ -7,7 +7,7 @@ import { Login } from './pages/Login/Login';
 import { Orders } from './pages/Orders/Orders';
 import config from "./config.json"
 import axios from 'axios';
-import { IBasket, IProduct } from './structs';
+import { IBasket, IProduct } from './interfaces';
 
 function App() {
   const [authorized, setAuthorized] = useState(false)
@@ -46,7 +46,7 @@ function App() {
     return ""
   }
   useEffect(()=>{
-    let url = config.backend.host + config.backend.port+ "/authorized"
+    let url = config.backend + "/authorized"
     var results = getCookie()
     
     if (results?.length !== 0){

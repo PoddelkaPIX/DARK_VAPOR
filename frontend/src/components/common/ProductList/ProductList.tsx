@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { IProduct } from "../../../structs";
+import { IProduct } from "../../../interfaces";
 import { ProductCard } from "../../cards/ProductCard/ProductCard";
 import st from "./ProductList.module.scss"
 

@@ -1,7 +1,7 @@
 import { FC, useEffect, useReducer, useState } from "react";
 import st from "./OrganizationInformationModal.module.scss"
 import config from "../../config.json"
-import { IDeliverypoint, IInformation } from "../../structs";
+import { IDeliverypoint, IInformation } from "../../interfaces";
 import { AddressSuggestions, DaDataAddress, DaDataSuggestion } from "react-dadata";
 
 interface PropTypes{
@@ -11,18 +11,17 @@ interface PropTypes{
 export const OrganizationInformationModal: FC<PropTypes>=({onClose}) => {
     const [client_information, setClientInformation] = useState<IInformation>()
     const [name_editing, set_name_editing] = useState(false)
-    const [locality_editing, set_locality_editing] = useState(false)
+    const [location_editing, set_location_editing] = useState(false)
     const [telephone_editing, set_telephone_editing] = useState(false)
     const [delivery_point_sdek_editing, set_delivery_point_sdek_editing] = useState(false)
 
     const [name, set_name] = useState("")
-    const [, set_locality] = useState("")
-    const [, set_locality_fias_id] = useState("")
+
     const [telephone, set_telephone] = useState("")
     const [delivery_point_sdek, set_delivery_point_sdek] = useState("")
     const [delivery_point_code_sdek, set_delivery_point_code_sdek] = useState("")
 
-    const [localityData, setLocalityData] = useState<DaDataSuggestion<DaDataAddress>>();
+    const [locationData, setLocalityData] = useState<DaDataSuggestion<DaDataAddress>>();
     const [deliverypoints, setDeliverypoints] = useState<IDeliverypoint[]>([])
 
     const [_count, forceUpdate] = useReducer(x => x + 1, 0);
@@ -30,34 +29,32 @@ export const OrganizationInformationModal: FC<PropTypes>=({onClose}) => {
     function fill_fields(info: IInformation){
         setClientInformation(info)
         set_name(info.name)
-        set_locality(info.locality)
-        set_locality_fias_id(info.locality_fias_id)
         set_telephone(info.telephone)
         set_delivery_point_sdek(info.delivery_point_sdek)
         set_delivery_point_code_sdek(info.delivery_point_code_sdek)
     }
 
     function edit_name(){
-        fetch(config.backend.host + config.backend.port + "/editName/"+name)
+        fetch(config.backend + "/editName/"+name)
         forceUpdate()
     }
 
-    function edit_locality(){
+    function edit_location(){
         // eslint-disable-next-line eqeqeq
-        if (localityData?.data.city !== undefined && localityData?.data.city_fias_id != undefined){
-            fetch(config.backend.host + config.backend.port + "/editLocality/"+localityData?.data.city+"/"+localityData?.data.city_fias_id)
-            set_delivery_point_code_sdek(localityData?.data.city_fias_id)
+        if (locationData?.data.city !== undefined && locationData?.data.country != undefined){
+            fetch(config.backend + "/editLocality/"+locationData?.data.country+"/"+locationData?.data.country_iso_code+"/"+locationData?.data.city+"/"+locationData.data.region)
+            set_delivery_point_code_sdek(locationData?.data.country)
         }
         forceUpdate()
     }
 
     function edit_telephone(){
-        fetch(config.backend.host + config.backend.port + "/editTelephone/"+telephone)
+        fetch(config.backend + "/editTelephone/"+telephone)
         forceUpdate()
     }
 
     function edit_delivery_point_sdek(){
-        fetch(config.backend.host + config.backend.port + "/editDeliveryPointSdek/"+delivery_point_sdek+"/"+delivery_point_code_sdek)
+        fetch(config.backend + "/editDeliveryPointSdek/"+delivery_point_sdek+"/"+delivery_point_code_sdek)
         forceUpdate()
     }
 
@@ -70,12 +67,12 @@ export const OrganizationInformationModal: FC<PropTypes>=({onClose}) => {
         }
         return deliverypoints.sort(SortArray)
     }
-    function getDeliverypoints(data: string){
-        fetch(config.backend.host + config.backend.port + "/getDeliverypointsSdek/"+data).then(res=>res.json()).then((result)=>{setDeliverypoints(sortDeliverypoints(result))}) 
+    function getDeliverypoints(location: string, country_code:string, region: string){
+        fetch(config.backend+ "/getDeliverypointsSdek/"+location+"/"+country_code+"/"+region).then(res=>res.json()).then((result)=>{setDeliverypoints(sortDeliverypoints(result.data))}) 
 
     }
     useEffect(()=>{
-        fetch(config.backend.host + config.backend.port + "/getInformation").then(res=>res.json()).then((result)=>{fill_fields(result); getDeliverypoints(result.locality_fias_id)})
+        fetch(config.backend + "/getInformation").then(res=>res.json()).then((result)=>{fill_fields(result.data); getDeliverypoints(result.data.location, result.data.country_code, result.data.region)})
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [forceUpdate, _count])
     
@@ -95,13 +92,13 @@ export const OrganizationInformationModal: FC<PropTypes>=({onClose}) => {
             </div>
             <div className={st["fielnd"]}>
                 <b>Город: </b> 
-                {!locality_editing ? <>
-                    <div>{client_information?.locality}</div>
-                    <button className={st["button-edit"]} onClick={()=>{set_locality_editing(true)}}><i className="fa-solid fa-pen"></i></button>
+                {!location_editing ? <>
+                    <div>{client_information?.location}</div>
+                    <button className={st["button-edit"]} onClick={()=>{set_location_editing(true)}}><i className="fa-solid fa-pen"></i></button>
                 </>: 
                 <>
-                    <AddressSuggestions defaultQuery={client_information?.locality} token="e2e60336d7b861dd95c3ee3d08e81546b51a8afe" value={localityData} onChange={(data: any )=>{setLocalityData(data); getDeliverypoints(data.data.fias_id)}} />
-                    <button className={st["button-edit"]} onClick={()=>{set_locality_editing(false); edit_locality()}}><i className="fa-solid fa-floppy-disk"></i></button>
+                    <AddressSuggestions defaultQuery={client_information?.location} token="e2e60336d7b861dd95c3ee3d08e81546b51a8afe" value={locationData} onChange={(location: any )=>{setLocalityData(location); getDeliverypoints(location.data.city, location.data.country_iso_code, location.data.region)}} />
+                    <button className={st["button-edit"]} onClick={()=>{set_location_editing(false); edit_location()}}><i className="fa-solid fa-floppy-disk"></i></button>
                 </>}
             </div>
             <div className={st["fielnd"]}>
@@ -128,11 +125,6 @@ export const OrganizationInformationModal: FC<PropTypes>=({onClose}) => {
                     <button className={st["button-edit"]} onClick={()=>{set_delivery_point_sdek_editing(false); edit_delivery_point_sdek()}}><i className="fa-solid fa-floppy-disk"></i></button>
                 </>}
             </div>
-            {/* <label>
-                <b>Пункт Почты России для отправки: </b> 
-                {client_information?.delivery_point_sdek}
-                <button className={st["button-edit"]} onClick={()=>{}}><i className="fa-solid fa-pen"></i></button>
-            </label> */}
             <button onClick={()=>complite()} id={st["close-button"]}>Закрыть</button>
         </div>
     </div>

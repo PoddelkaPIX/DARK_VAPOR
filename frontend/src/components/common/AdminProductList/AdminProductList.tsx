@@ -23,7 +23,7 @@ export const AdminProductList: FC<PropTypes>=({list, flagUpdate}) => {
    
     function deleteType(){
         const typeId = list.type_id.toString()
-        let url = config.backend.host + config.backend.port + "/deleteType"
+        let url = config.backend + "/deleteType"
         let body = {"type_id": typeId}
         axios({
             method: 'post',

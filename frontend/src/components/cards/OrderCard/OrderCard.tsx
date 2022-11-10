@@ -5,7 +5,7 @@ import { Modal } from "../../common/Modal/Modal";
 import { OrderInformationModal } from "../../../modals/OrderInformationModal/OrderInformationModal";
 import axios from "axios";
 import config from "../../../config.json"
-import { IInformation, IOrder } from "../../../structs";
+import { IInformation, IOrder } from "../../../interfaces";
 import { ConfirmDialog } from "../../common/ConfirmDialog/ConfirmDialog";
 import { CreatingReceiptModal } from "../../../modals/CreatingReceiptModal/CreatingReceiptModal";
 
@@ -27,7 +27,7 @@ export const OrderCard: FC<PropTypes>=({order, flagUpdate}) => {
         document.body.style.overflowY = "unset"
     }
     function deleteOrder(){
-        let url = config.backend.host + config.backend.port + "/deleteOrder"
+        let url = config.backend + "/deleteOrder"
 
         let body = {
             "order_id": order.order_id,
@@ -48,12 +48,13 @@ export const OrderCard: FC<PropTypes>=({order, flagUpdate}) => {
         })
     }
     function confirme(){
-        fetch(config.backend.host + config.backend.port + "/getInformation").then(res=>res.json()).then((result)=>{
-            let url = config.backend.host + config.backend.port + "/orderConfirmed"
-
+        fetch(config.backend + "/getInformation").then(res=>res.json()).then((result)=>{
+            let url = config.backend + "/orderConfirmed"
+            console.log("ddd", result.data);
+            
             let body = {
                 "order": order,
-                "adminInformation": result,
+                "adminInformation": result.data,
             }
             axios({
                 method: 'post',
@@ -72,7 +73,7 @@ export const OrderCard: FC<PropTypes>=({order, flagUpdate}) => {
         })
     }
     function printReceiptSdek(){
-        fetch(config.backend.host + config.backend.port + "/createReceiptSdek/"+order.uuid)
+        fetch(config.backend + "/createReceiptSdek/"+order.uuid)
     }
     return (
         <div className={st["order-card"]} id={st[confirmed ? confirmed.toString() : "false"]}>
@@ -80,7 +81,7 @@ export const OrderCard: FC<PropTypes>=({order, flagUpdate}) => {
                 <div className={st["order-card-title"]}>{order.last_name} {order.first_name} {order.patronymic}</div>
                 <div className={st["order-card-price"]}><div>Товаров: {order.products.length} шт.</div></div>
                 <div className={st["order-card-description"]}>
-                    <div>{order.city}</div>
+                    <div>{order.location}</div>
                 </div>
                 <div id={st["buttons"]}>
                     <button className={st["button-edit"]} onClick={()=>setShowInformationModal(true)}><i className="fa-solid fa-eye"></i></button>

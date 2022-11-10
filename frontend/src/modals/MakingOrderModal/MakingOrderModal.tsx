@@ -3,9 +3,10 @@ import { FC, useEffect, useReducer, useState } from "react";
 import { Modal } from "../../components/common/Modal/Modal";
 import st from "./MakingOrderModal.module.scss"
 import config from "../../config.json"
-import { IBasket, IDeliverypoint, IOrder} from "../../structs";
+import { IBasket, IDeliverypoint, IOrder} from "../../interfaces";
 import { SdekOrderForm } from "../../components/forms/SdekOrderForm/SdekOrderForm";
 import { DaDataAddress, DaDataSuggestion } from "react-dadata";
+import { PochtaOrderForm } from "../../components/forms/PochtaOrderForm/PochtaOrderForm";
 interface PropTypes{
     closingBackground: boolean
     onClose: ()=>void
@@ -19,7 +20,7 @@ export const MakingOrderModal: FC<PropTypes> = ({onClose, closingBackground, bas
     const [disabledComplite, setDisabledComplite] = useState(true)
 
     const [deliverypoints, setDeliverypoints] = useState<IDeliverypoint[]>([])
-    const [localityData, setLocalityData] = useState<DaDataSuggestion<DaDataAddress>>();
+    const [locationData, setLocalityData] = useState<DaDataSuggestion<DaDataAddress>>();
     const [warning, setWarning] = useState("");
 
     const [, forceUpdate] = useReducer(x => x + 1, 0);
@@ -38,8 +39,7 @@ export const MakingOrderModal: FC<PropTypes> = ({onClose, closingBackground, bas
         // eslint-disable-next-line no-useless-escape
         var re = /^[\d\+][\d\(\)\ -]{4,14}\d$/;
         var valid = re.test(telephone);
-        console.log(valid);
-        
+    
         if (valid) {
             setWarning("")
         }else{
@@ -54,7 +54,7 @@ export const MakingOrderModal: FC<PropTypes> = ({onClose, closingBackground, bas
     }
     
     function complite(){
-        let url = config.backend.host + config.backend.port + "/addOrder"
+        let url = config.backend + "/addOrder"
       
         axios({
             method: 'post',
@@ -72,12 +72,21 @@ export const MakingOrderModal: FC<PropTypes> = ({onClose, closingBackground, bas
     }
 
     useEffect(()=>{
-        if ( localityData !== undefined && localityData.data.city_with_type !== null){
-            order.city = localityData.data.city_with_type
-            order.region = localityData.data.region_with_type
+        if ( locationData !== undefined && locationData.data.city_with_type !== null){
+            if (locationData.data.city_with_type !== null && locationData.data.city_with_type !== ""){
+                order.location = locationData.data.city_with_type
+            }
+            order.country = locationData.data.country
+            order.country_code = locationData.data.country_iso_code
+            order.region = locationData.data.region_with_type
+            console.log("order", order);
+            
             setOrder(order)
         }
-        if ( warning === "" && order.cost_of_delivery !== 0 && order.last_name !== "" &&  order.first_name !== "" &&  order.patronymic !== "" &&  order.telephone !== ""  &&  order.city !== "" &&  order.delivery_point_code !== "" &&  order.feedback_URL !== ""){
+        if ( warning === "" && order.cost_of_delivery !== 0 && order.last_name !== "" &&  
+            order.first_name !== "" &&  order.patronymic !== "" &&  order.telephone !== ""  &&  
+            order.location !== "" &&  order.delivery_point_code !== "" &&  order.feedback_URL !== "" &&
+            order.country !== "" && order.region !== ""){
             setDisabledComplite(false) 
         }else{
             setDisabledComplite(true)
@@ -122,12 +131,12 @@ export const MakingOrderModal: FC<PropTypes> = ({onClose, closingBackground, bas
                             {/* <option value="ПОЧТА РОССИИ">ПОЧТА РОССИИ</option> */}
                         </select>
                         {order.delivery === "СДЭК" && 
-                            <SdekOrderForm order={order} setOrder={handlerSetOrder} setLocalityData={(data)=>setLocalityData(data)} localityData={localityData} modalForceUpdate={forceUpdate} deliverypoints={deliverypoints} setDeliverypoints={(delivery_points: IDeliverypoint[])=>setDeliverypoints(delivery_points)}/>
+                            <SdekOrderForm order={order} setOrder={handlerSetOrder} setLocalityData={(data)=>setLocalityData(data)} locationData={locationData} modalForceUpdate={forceUpdate} deliverypoints={deliverypoints} setDeliverypoints={(delivery_points: IDeliverypoint[])=>setDeliverypoints(delivery_points)}/>
                         }
                         {/* {order.delivery === "ПОЧТА РОССИИ" && 
-                            <RussiaOrderForm order={order} setOrder={setOrder} localityData={localityData} modalForceUpdate={forceUpdate}/>
+                            <PochtaOrderForm order={order} setOrder={handlerSetOrder} setLocalityData={(data)=>setLocalityData(data)} locationData={locationData} modalForceUpdate={forceUpdate} deliverypoints={deliverypoints} setDeliverypoints={(delivery_points: IDeliverypoint[])=>setDeliverypoints(delivery_points)}/>
                         } */}
-                        {order.cost_of_delivery !== undefined && <div id={st["delivery-amount"]} ><b>Стоимость доставки: </b> {order.cost_of_delivery} ₽</div>}
+                        {(order.cost_of_delivery !== undefined || order.cost_of_delivery !== 0) && <div id={st["delivery-amount"]} ><b>Стоимость доставки: </b> {order.cost_of_delivery} ₽</div>}
                     </div>
                     <button onClick={complite} disabled={disabledComplite} id={st["confirm-button"]}>Подтвердить заказ на {order.cost_of_products + order.cost_of_delivery} ₽</button>
                 </div>

@@ -137,5 +137,5 @@ VALUES (
     4
 );
 
-INSERT INTO public."admin" ("login", "password", "name" , "locality", "locality_fias_id", "tariff_code", "telephone", "delivery_point_sdek", "delivery_point_code_sdek", "delivery_point_pochta", "delivery_point_code_pochta") 
-VALUES ('vapor', '1134481834', 'Москоленко Максим Сергеевич' , 'Г. Курган','3bbda77d-ba3f-4457-9d44-c440815cda89', '136', '89924566831', 'Надпись по  умолчанию', 'MSK67', 'Пока не важно', 'Пока не важно');
+INSERT INTO public."admin" ("login", "password", "name" , "country", "country_code", "location", "region", "tariff_code", "telephone", "delivery_point_sdek", "delivery_point_code_sdek", "delivery_point_pochta", "delivery_point_code_pochta") 
+VALUES ('vapor', '1134481834', 'Москоленко Максим Сергеевич', 'Россия', 'RU' , 'Курган', 'Курганская', '136', '89091797439', 'На Куйбышева', 'KUR16', 'Пока не важно', 'Пока не важно');

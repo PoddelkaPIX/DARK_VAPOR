@@ -41,11 +41,11 @@ export const AddProductInDataBaseModal: FC<PropTypes>=({onClose, typeId, flagUpd
     }
     
     useEffect(()=>{
-        fetch(config.backend.host + config.backend.port + "/defaultParameterValuesByType/"+typeId).then(res=>res.json()).then((result)=>{setParameters(result); setSelectParameters(result)})
+        fetch(config.backend + "/defaultParameterValuesByType/"+typeId).then(res=>res.json()).then((result)=>{setParameters(result); setSelectParameters(result)})
     }, [])
 
     function complite(){
-        let url = config.backend.host + config.backend.port + "/addProduct"
+        let url = config.backend + "/addProduct"
         let body = {"title_product": selectTitle, 
                     "description": selectDescription,
                     "price": selectPrice,

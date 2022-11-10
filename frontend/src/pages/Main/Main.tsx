@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from "react"
 import st from "./Main.module.scss"
 import { ProductList } from "../../components/common/ProductList/ProductList"
 import config from "../../config.json"
-import { IProduct } from "../../structs"
+import { IProduct } from "../../interfaces"
 import 'react-dadata/dist/react-dadata.css';
 
 interface PropTypes {
@@ -15,7 +15,7 @@ export const Main: FC<PropTypes>= ({authorized, setProducts }) => {
     const [data, setData] = useState<IProduct[][]>([])
     useEffect(()=>{
         document.body.style.overflowY = "unset"
-        fetch(config.backend.host + config.backend.port + "/productsByCategory/"+window).then(res=>res.json()).then((result)=>setData(result))
+        fetch(config.backend + "/productsByCategory/"+window).then(res=>res.json()).then((result)=>setData(result))
     }, [window])
     return (
         <main>

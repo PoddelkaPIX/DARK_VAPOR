@@ -27,8 +27,8 @@ export const AddTypeModal: FC<PropTypes>=({onClose, flagUpdate}) => {
     document.body.style.overflowY = "hidden"
 
     useEffect(()=>{
-        fetch(config.backend.host + config.backend.port + "/parameters").then(res=>res.json()).then((result)=>setParameters(result))
-        fetch(config.backend.host + config.backend.port + "/getCaregorys").then(res=>res.json()).then((result)=>setCategorys(result))
+        fetch(config.backend + "/parameters").then(res=>res.json()).then((result)=>setParameters(result))
+        fetch(config.backend + "/getCaregorys").then(res=>res.json()).then((result)=>setCategorys(result))
     }, [])
 
     const handleTitleType = (e: any) => {
@@ -50,7 +50,7 @@ export const AddTypeModal: FC<PropTypes>=({onClose, flagUpdate}) => {
     };
 
     function complite(){
-        let url = config.backend.host + config.backend.port + "/addType"
+        let url = config.backend + "/addType"
         let data = {"title_type": titleType, "category_id": selectedCategoryId, "parameters": selectedParameters}
         axios({
             method: 'post',

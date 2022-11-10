@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import { BasketProductCard } from "../../components/cards/BasketProductCard/BasketProductCard";
-import { IBasket, IProduct } from "../../structs";
+import { IBasket, IProduct } from "../../interfaces";
 import st from "./BasketModal.module.scss"
 
 interface PropTypes{
@@ -14,8 +14,7 @@ interface PropTypes{
 
 export const BasketModal: FC<PropTypes>=({onClose, basket, setMakingOrderModal, changeBasketProductCount, deleteProductInBasket}) => {
     const [disabledComplite, setDisabledComplite] = useState(true)
-    let c = 0
-
+ 
     useEffect(()=>{
         if (basket.products.length !== 0){
             setDisabledComplite(false)

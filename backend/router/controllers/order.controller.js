@@ -10,8 +10,9 @@ module.exports.addOrder= async function (client, data){
         '<b>Соц. сеть</b>: ' + data.feedback_URL,
         '<b>Сообщение</b>: ' + data.message,
         '<b>Служба доставки</b>: ' + "<strong>" + data.delivery + "</strong>",
+        '<b>Страна</b>: ' + data.country,
         '<b>Регион</b>: ' + data.region,
-        '<b>Город</b>: ' + data.city,
+        '<b>Город</b>: ' + data.location,
         '<b>Пункт выдачи</b>: ' + data.delivery_point,
         '<b>Стоимость товаров</b>: ' + "<strong>" + data.cost_of_products + " ₽" + "</strong>",
         '<b>Стоимость доставки</b>: ' + "<strong>" + data.cost_of_delivery + " ₽" + "</strong>",
@@ -24,8 +25,10 @@ module.exports.addOrder= async function (client, data){
                             first_name,
                             patronymic,
                             telephone,
+                            country,
+                            country_code,
                             region,
-                            city,
+                            location,
                             delivery_point,
                             delivery_point_code,
                             "feedback_URL",
@@ -35,13 +38,15 @@ module.exports.addOrder= async function (client, data){
                             delivery,
                             weight,
                             date)
-                        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) RETURNING order_id;`, [
+                        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17) RETURNING order_id;`, [
                             data.last_name, 
                             data.first_name,
                             data.patronymic,
                             data.telephone,
+                            data.country,
+                            data.country_code,
                             data.region,
-                            data.city,
+                            data.location,
                             data.delivery_point,
                             data.delivery_point_code,
                             data.feedback_URL,
@@ -145,8 +150,10 @@ module.exports.getOrders = async function (client){
             "telephone": i.telephone,
             "date": i.date, 
             "confirmed": i.confirmed,
+            "country": i.country,
+            "country_code": i.country_code,
             "region": i.region,
-            "city": i.city,
+            "location": i.location,
             "delivery_point": i.delivery_point,
             "delivery_point_code": i.delivery_point_code,
             "feedback_URL": i.feedback_URL,
@@ -164,20 +171,19 @@ module.exports.getOrders = async function (client){
 
 module.exports.orderConfirmed = async function (tokken, client, data){
     const order_info = await orderRegistration(tokken, data)
-    console.log(order_info);
     if (order_info.uuid != null && order_info.cdek_number != null){
         fetch(`https://api.telegram.org/bot${config.telegram.token}/sendMessage?chat_id=${config.telegram.chat}&parse_mode=html&text=${"Заказ под номером " +  data.order.order_id +" подтверждён%0Auuid: " + order_info.uuid+"%0AНомер квитанции: " + order_info.cdek_number}`)
         await client.query(`UPDATE "order" SET
             confirmed = true,
             uuid = $1
             WHERE order_id = $2;`, [
-            uuid, 
+            order_info.uuid, 
             data.order.order_id,
             ]
         )   
         return {
             "confirmed": true,
-            "uuid": uuid
+            "uuid": order_info.uuid
         }
     }else{
         return {

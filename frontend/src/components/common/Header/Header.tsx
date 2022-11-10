@@ -8,7 +8,7 @@ import { Modal } from "../Modal/Modal";
 import { BasketModal } from "../../../modals/BasketModal/BasketModal";
 import { MakingOrderModal } from "../../../modals/MakingOrderModal/MakingOrderModal";
 import { OrganizationInformationModal } from "../../../modals/OrganizationInformationModal/OrganizationInformationModal";
-import { IBasket, IOrder, IProduct } from "../../../structs";
+import { IBasket, IOrder, IProduct } from "../../../interfaces";
 import { OrderReminderModal } from "../../../modals/OrderReminderModal/OrderReminderModal";
 
 interface PropTypes{
@@ -30,8 +30,10 @@ export const Header:FC<PropTypes> = ({authorized, basket, setProducts, changeBas
         telephone:  "",
         feedback_URL:  "",
         message:  "",
+        country:  "",
+        country_code: "",
         region:  "",
-        city:  "",
+        location:  "",
         delivery_point:  "",
         delivery_point_code:  "",
         products: basket.products,
@@ -74,11 +76,12 @@ export const Header:FC<PropTypes> = ({authorized, basket, setProducts, changeBas
                 <Modal onClose={()=>setOpenInformation(false)}>
                     <OrganizationInformationModal onClose={()=>setOpenInformation(false)}/>
                 </Modal>}
-            {makingOrderModal && <MakingOrderModal  order={order} setOrder={(order: IOrder)=>setOrder(order)} setOrderReminder={(bool: boolean)=>setOrderReminder(bool)} basket={basket} closingBackground={true} onClose={()=>setMakingOrderModal(false)}/>}
+            {makingOrderModal && 
+                <MakingOrderModal  order={order} setOrder={(order: IOrder)=>setOrder(order)} setOrderReminder={(bool: boolean)=>setOrderReminder(bool)} basket={basket} closingBackground={true} onClose={()=>setMakingOrderModal(false)}/>}
             {orderReminder && 
-            <Modal onClose={()=>setOrderReminder(false)}>
-                <OrderReminderModal order={order} onClose={()=>setOrderReminder(false)}/>
-            </Modal>}
+                <Modal onClose={()=>setOrderReminder(false)}>
+                    <OrderReminderModal order={order} onClose={()=>setOrderReminder(false)}/>
+                </Modal>}
         </header>
     )
 }

@@ -1,9 +1,15 @@
 #content{
     padding: 10px;
     .type{
-        border-bottom: 1px solid rgb(145, 145, 145);
-        color: rgb(145, 145, 145);
+        border-top: 0.5px solid rgb(103, 103, 103);
+        // border-bottom: 2px solid rgb(27, 27, 27);
+        box-shadow: 1px 1px 2px black;
+        border-left: 6px solid #1B4DB9;
+        color: white; 
         font-size: 18px;
+        padding: 4px;
+        font-weight: bold;
+        padding-left: 15px;
     }
     #product-list{
         font-size: 14px;

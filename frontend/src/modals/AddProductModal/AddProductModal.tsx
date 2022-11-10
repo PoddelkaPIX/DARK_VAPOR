@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import st from "./AddProductModal.module.scss"
 import config from "../../config.json"
-import { IParam, IProduct } from "../../structs";
+import { IParam, IProduct } from "../../interfaces";
 
 interface PropTypes{
     product: IProduct
@@ -66,7 +66,7 @@ export const AddProductModal: FC<PropTypes>=({onClose, product, setProducts}) =>
 
     useEffect(()=>{
         if (params.length === 0){
-            fetch(config.backend.host + config.backend.port + "/productParameterValuesByType/" + product.type_id + "/" + product.product_id).then(res=>res.json()).then((params)=>{setParams(params); updateParameterGroups(params); {params.length === 0 && setDisabledComplite(false)}})
+            fetch(config.backend + "/productParameterValuesByType/" + product.type_id + "/" + product.product_id).then(res=>res.json()).then((params)=>{setParams(params); updateParameterGroups(params); {params.length === 0 && setDisabledComplite(false)}})
         } 
     }, [])
     

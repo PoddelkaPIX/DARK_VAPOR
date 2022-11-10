@@ -38,17 +38,6 @@ async function getTokken(){
    
 }
 
-async function getTokkenEdu(){
-    return fetch(config.sdek_edu.domen_edu + "/v2/oauth/token?" + quaryParamsEdu, { 
-         method: 'POST',
-         headers: {
-             "Content-Type": "application/x-www-form-urlencoded",
-             "Access-Control-Allow-Origin": "*",
-         }
-     }).then(response => (response.json())
-     ).then(result =>{return result}).catch(function(err){console.log(err); return null})
- }
-
 const client = new Client({ 
     user: config.db.user,
     host: config.db.host,
@@ -160,10 +149,10 @@ module.exports = async function(app){
         return
     });
 
-    app.get('/getDeliverypointsSdek/:cityCode',async function(req, res) { 
+    app.get('/getDeliverypointsSdek/:location/:country_code/:region',async function(req, res) { 
         const tokken = await getTokken()
         if(tokken.access_token !== undefined){
-            res.json(await getDeliverypointsSdek(req.param("cityCode"), tokken.access_token))
+            res.json(await getDeliverypointsSdek(tokken.access_token, req.param("location"), req.param("country_code"), req.param("region")))
         }
         return
     });
@@ -220,8 +209,8 @@ module.exports = async function(app){
         res.send("complite");
         return
     });
-    app.get('/editLocality/:locality/:fias_id',async function(req, res) {
-        editLocality(client, req.param("locality"), req.param("fias_id"))
+    app.get('/editLocality/:country/:country_code/:location/:region',async function(req, res) {
+        editLocality(client, req.param("country"), req.param("country_code"), req.param("location"), req.param("region"))
         res.send("complite");
         return
     });

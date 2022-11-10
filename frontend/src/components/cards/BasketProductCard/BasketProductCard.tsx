@@ -1,7 +1,7 @@
 import { FC } from "react";
 import st from "./BasketProductCard.module.scss"
 import { useState } from "react";
-import { IProduct } from "../../../structs";
+import { IProduct } from "../../../interfaces";
 
 interface PropTypes{
     product: IProduct

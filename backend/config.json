@@ -1,4 +1,5 @@
 {
+    "debug": true,
     "sdek": {
       "grant_type": "client_credentials",
       "client_id": "ws8tYmGzeGWfHTa9PLXt6xX2KeJyXL5N",
@@ -11,14 +12,14 @@
       "domen_edu": "https://api.edu.cdek.ru"
     },
     "deliveryRussia": {
-      "Authorization": "AccessToken sDBaa9XNfFargSyQ8KIEM40GB_ndPmLu",
-      "X-User-Authorization": "Basic bG9naW46cGFzc3dvcmQ=",
+      "Authorization": "AccessToken D4JDDkg5LusljppsdQ_iqgLFckNGiGQ1",
+      "X-User-Authorization": "Basic YWNoZXJlZG5pY2tAZ21haWwuY29tOlFpd2kyNjA1MjAwNQ==",
       "domen": "https://otpravka-api.pochta.ru"
     },
     "telegram": {
       "token": "5768150484:AAGNJPtjpOKk9Dd4lPDkGf9yLsgC7Kdddrw",
-      "chat_test": "-762303192",
-      "chat": "-1001807202460"
+      "chat": "-762303192",
+      "chat_test": "-1001807202460"
     },
     "db": {
       "user": "postgres",

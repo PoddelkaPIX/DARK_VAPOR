@@ -3,37 +3,41 @@
     background-color: #1A1A18;
     border-radius: 6px;
     color: white;
-    display: grid;
-    grid-template-areas: "title price description button";
-    grid-template-columns: 150px 150px auto 100px;
+    display: flex;
     align-items: center;
     gap: 5px;
     box-shadow: 8px 16px 25px 1px rgba(0, 0, 0, 0.3);
+    .container{
+        display: flex;
+        gap: 5px;
+        .product-card-title{
+            display: flex;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            padding: 6px;
+            font-weight: bold;
+            grid-area: title;
+            width: 150px ;
+        }
     
-    .product-card-title{
-        display: flex;
-        text-align: center;
-        justify-content: center;
-        align-items: center;
-        padding: 6px;
-        font-weight: bold;
-        grid-area: title;
+        .product-card-price{
+            display: flex;
+            width: 150px ;
+            justify-content: center;
+            align-items: center;
+            background: #30302C;
+            border-radius: 4px;
+            padding: 3px;
+            max-height: 25px;
+            min-width: 100px;
+            grid-area: price;
+        }
     }
-
-    .product-card-price{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: #30302C;
-        border-radius: 4px;
-        padding: 3px;
-        max-height: 25px;
-        min-width: 100px;
-        grid-area: price;
-    }
-
+    
     .product-card-description{
-        min-height: 60%;
+        width: 95%;
+        min-height: 20px;
         text-align: center;
         align-items: center;
         color: #a5a5a5;
@@ -44,6 +48,8 @@
     }
 
     .button-in-basket{
+        white-space: nowrap;
+        width: 150px;
         border: none;
         background: none;
         color: white;
@@ -52,16 +58,18 @@
         border-radius: 4px;
         max-width: 150px;
         height: fit-content;
+        margin-right: auto;
         grid-area: button;
     }
 }
 
 @media screen and (max-width:500px) {
     .product-card{
-        display: grid;
-        grid-template-areas: "title price"
-                            "description description"
-                            "button .";
-        grid-template-columns: auto auto;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        .product-card-description{
+            width: 95%;
+        }
     }
 }

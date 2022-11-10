@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { IOrder } from "../../structs";
+import { IOrder } from "../../interfaces";
 import st from "./OrderInformationModal.module.scss"
 interface PropTypes{
     onClose: ()=>void
@@ -16,8 +16,9 @@ export const OrderInformationModal: FC<PropTypes> = ({onClose, order})=>{
                 <tbody>
                     <tr><td>ФИО</td><td>{order.last_name} {order.first_name} {order.patronymic}</td></tr>
                     <tr><td>Телефон</td><td>{order.telephone}</td></tr>
+                    <tr><td>Страна</td><td>{order.country}</td></tr>
                     <tr><td>Регион</td><td>{order.region}</td></tr>
-                    <tr><td>Город</td><td>{order.city}</td></tr>
+                    <tr><td>Город</td><td>{order.location}</td></tr>
                     <tr><td>Соц. сеть</td><td>{order.feedback_URL}</td></tr>
                     {order.message !== "" && <tr><td>Сообщение</td><td>{order.message}</td></tr>}
                     <tr><td>Почтовая служба</td><td>{order.delivery}</td></tr>

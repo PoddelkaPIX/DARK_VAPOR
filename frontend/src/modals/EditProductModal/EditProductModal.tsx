@@ -3,7 +3,7 @@ import { Modal } from "../../components/common/Modal/Modal"
 import st from "./EditProductModal.module.scss"
 import axios from "axios"
 import config from "../../config.json"
-import { IParam, IProduct } from "../../structs"
+import { IParam, IProduct } from "../../interfaces"
 
 interface PropTypes{
     onClose: ()=>void
@@ -24,7 +24,7 @@ export const EditProductModal: FC<PropTypes>=({onClose, flagUpdate, product}) =>
     document.body.style.overflowY = "hidden"
     
     function complite(){
-        let url = config.backend.host + config.backend.port + "/updateProduct"
+        let url = config.backend + "/updateProduct"
         let body = {"product_id": product.product_id,
                     "title_product": title,
                     "description": description,
@@ -64,8 +64,8 @@ export const EditProductModal: FC<PropTypes>=({onClose, flagUpdate, product}) =>
         }
     }
     useEffect(()=>{
-        fetch(config.backend.host + config.backend.port + "/defaultParameterValuesByType/" + product.type_id).then(res=>res.json()).then((params)=>setParameters(params))
-        fetch(config.backend.host + config.backend.port + "/productParameterValuesByType/" + product.type_id + "/" + product.product_id).then(res=>res.json()).then((params)=>setCheckedParams(params))                
+        fetch(config.backend + "/defaultParameterValuesByType/" + product.type_id).then(res=>res.json()).then((params)=>setParameters(params))
+        fetch(config.backend + "/productParameterValuesByType/" + product.type_id + "/" + product.product_id).then(res=>res.json()).then((params)=>setCheckedParams(params))                
     }, [])
 
     return (

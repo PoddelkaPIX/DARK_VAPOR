@@ -3,7 +3,7 @@ import st from "./ProductCard.module.scss"
 import { useState } from "react";
 import { Modal } from "../../../components/common/Modal/Modal";
 import { AddProductModal } from "../../../modals/AddProductModal/AddProductModal";
-import { IProduct } from "../../../structs";
+import { IProduct } from "../../../interfaces";
 
 interface PropTypes{
     product: IProduct
@@ -22,8 +22,10 @@ export const ProductCard: FC<PropTypes>=({product, setProducts}) => {
     }
     return (
         <div className={st["product-card"]}>
-                    <div className={st["product-card-title"]}>{product.title_product}</div>
-                    <div className={st["product-card-price"]}>{product.price} ₽</div>
+                    <div className={st["container"]}>
+                        <div className={st["product-card-title"]}>{product.title_product}</div>
+                        <div className={st["product-card-price"]}>{product.price} ₽</div>
+                    </div>
                     <div className={st["product-card-description"]}>{product.description}</div>
                     <button className={st["button-in-basket"]} onClick={addItemToBasket}>В КОРЗИНУ</button>
                     {showAddItemModal && 

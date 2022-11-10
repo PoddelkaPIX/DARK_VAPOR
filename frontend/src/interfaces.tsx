@@ -32,8 +32,10 @@ export interface IOrder {
   first_name:string
   patronymic:string
   telephone:string
+  country: string
+  country_code: string
   region:string
-  city:string
+  location:string
   delivery_point:string
   delivery_point_code:string
   feedback_URL: string
@@ -79,8 +81,10 @@ export interface IDeliverypoint{
 
 export interface IInformation{
   name: string
-  locality: string
-  locality_fias_id: string
+  location: string
+  country: string
+  country_code: string
+  region: string
   tariff_code: string
   telephone: string
   delivery_point_sdek: string

@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react"
-import { IOrder } from "../../structs"
+import { IOrder } from "../../interfaces"
 import st from "./OrderReminderModal.module.scss"
 interface PropTypes{
     onClose: ()=>void

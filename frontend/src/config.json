@@ -1,7 +1,4 @@
 {
-    "backend": {
-      "host_test": "http://localhost:",
-      "host": "http://62.217.178.86:",
-      "port": "8000"
-    }
-  }
+  "backend": "http://localhost:8000",
+  "backend_test": "http://62.217.178.86:8000"
+}
