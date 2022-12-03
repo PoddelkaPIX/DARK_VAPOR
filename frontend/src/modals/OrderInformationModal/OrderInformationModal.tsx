@@ -23,7 +23,9 @@ export const OrderInformationModal: FC<PropTypes> = ({onClose, order})=>{
                     {order.message !== "" && <tr><td>Сообщение</td><td>{order.message}</td></tr>}
                     <tr><td>Почтовая служба</td><td>{order.delivery}</td></tr>
                     <tr><td>Пункт доставки</td><td>{order.delivery_point}</td></tr>
-                    {order.confirmed && <tr><td>uuid заказа: </td><td>{order.uuid}</td></tr>}
+                    {order.uuid_sdek && <tr><td>uuid заказа: </td><td>{order.uuid_sdek}</td></tr>}
+                    {order.number_sdek && <tr><td>Номер заказа: </td><td>{order.number_sdek}</td></tr>}
+
                 </tbody>
             </table>
             <table id={st["order-products-table"]}>

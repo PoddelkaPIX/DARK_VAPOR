@@ -80,7 +80,7 @@ export const AddTypeModal: FC<PropTypes>=({onClose, flagUpdate}) => {
                                                         <input onChange={handleSelectedParameters} type="checkbox" value={parameter.parameter_id}></input>
                                                     </label>)}
             <button onClick={()=>{setConfirmDialogAddType(true)}}>Готово</button>
-            {confirmDialogAddType && <ConfirmDialog onClose={()=>{setConfirmDialogAddType(false); onClose()}} question="Добавить новый тип товаров?" confirme={complite}/>}
+            {confirmDialogAddType && <ConfirmDialog onClose={()=>{setConfirmDialogAddType(false); onClose()}} question="Добавить новый тип товаров?" confirmed={complite}/>}
         </div>
     </Modal>
     );

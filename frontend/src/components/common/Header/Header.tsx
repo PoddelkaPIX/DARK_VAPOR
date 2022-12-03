@@ -77,11 +77,17 @@ export const Header:FC<PropTypes> = ({authorized, basket, setProducts, changeBas
                     <OrganizationInformationModal onClose={()=>setOpenInformation(false)}/>
                 </Modal>}
             {makingOrderModal && 
-                <MakingOrderModal  order={order} setOrder={(order: IOrder)=>setOrder(order)} setOrderReminder={(bool: boolean)=>setOrderReminder(bool)} basket={basket} closingBackground={true} onClose={()=>setMakingOrderModal(false)}/>}
+                <Modal closingBackground={true} onClose={()=>setMakingOrderModal(false)}>
+                    <MakingOrderModal onClose={()=>setMakingOrderModal(false)} order={order} setOrder={(order: IOrder)=>setOrder(order)} setOrderReminder={(bool: boolean)=>setOrderReminder(bool)} basket={basket}/>
+                </Modal>}
             {orderReminder && 
                 <Modal onClose={()=>setOrderReminder(false)}>
                     <OrderReminderModal order={order} onClose={()=>setOrderReminder(false)}/>
                 </Modal>}
+            {orderReminder && 
+            <Modal onClose={()=>setOrderReminder(false)}>
+                <OrderReminderModal order={order} onClose={()=>setOrderReminder(false)}/>
+            </Modal>}
         </header>
     )
 }

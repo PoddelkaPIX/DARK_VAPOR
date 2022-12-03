@@ -49,7 +49,8 @@ export interface IOrder {
   delivery: string
   sender_name: string
   sender_phone_number: string
-  uuid?: string
+  uuid_sdek?: string
+  number_sdek?: string
 }
   
   export  interface IProduct{

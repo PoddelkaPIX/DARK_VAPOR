@@ -1,4 +1,4 @@
 {
-  "backend_test": "http://localhost:8000",
-  "backend": "http://62.217.178.86:8000"
+  "backend": "http://localhost:8000",
+  "backend_test": "http://62.217.178.86:8000"
 }

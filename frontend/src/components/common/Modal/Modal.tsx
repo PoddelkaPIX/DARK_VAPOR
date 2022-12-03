@@ -10,11 +10,12 @@ interface PropTypes {
 }
 
 export const Modal: FC<PropTypes> = ({onClose, children, cross=false, closingBackground=false}) =>{
+    document.body.style.overflowY = "hidden"
     return (
         <>
-        {closingBackground ? <div className={st["modal"]} onClick={onClose} /> :  <div className={st["modal"]}/>}
+        {closingBackground ? <div className={st["modal"]} onClick={()=>{document.body.style.overflowY = "unset"; onClose()}} /> :  <div className={st["modal"]}/>}
         <div className={st["modal-content"]}>
-            {cross && <button className={st['cross']} onClick={onClose}><i className="fa fa-xmark"></i></button>}
+            {cross && <button className={st['cross']} onClick={()=>{document.body.style.overflowY = "unset"; onClose()}}><i className="fa fa-xmark"></i></button>}
             {children }
         </div>
         </>     

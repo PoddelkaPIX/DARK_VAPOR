@@ -29,8 +29,7 @@ export const SdekOrderForm: FC<PropTypes>=({order, setOrder, setLocalityData, lo
                 url: url,
                 data: body,
                 headers: { "Content-Type": "application/json" },
-            })
-            .then(function (response) {
+            }).then(function (response) {
                 if (response.data.errors !== undefined){  
                     alert(response.data.errors[0])
                 }else{
@@ -43,9 +42,8 @@ export const SdekOrderForm: FC<PropTypes>=({order, setOrder, setLocalityData, lo
                 }
                 modalForceUpdate()
                 forceUpdate()
-            })
-            .catch(function (error) {
-                alert("Какие-то проблемы. Обратитесь за помощью в нашу группу https://vk.com/darkvapor")
+            }).catch(function (error) {
+                alert("Какие-то проблемы. Обратитесь за помощью в нашу группу https://vk.com/darkvapor."+String(error))
                 window.location.replace("/")
             });
         })
@@ -97,7 +95,6 @@ export const SdekOrderForm: FC<PropTypes>=({order, setOrder, setLocalityData, lo
                         { "country": "Россия" },
                         { "country": "Казахстан" },
                         { "country": "Беларусь" },
-                        { "country": "Украина" }
                     ]} token="e2e60336d7b861dd95c3ee3d08e81546b51a8afe" value={locationData} onChange={(location: any )=>{handlerCityChanged(location)}} />
                 </div>
                 </label> 

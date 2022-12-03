@@ -11,72 +11,65 @@ import { CreatingReceiptModal } from "../../../modals/CreatingReceiptModal/Creat
 
 interface PropTypes{
     order: IOrder
-    flagUpdate: ()=>void
+    forceUpdate: ()=>void
 }
 
-export const OrderCard: FC<PropTypes>=({order, flagUpdate}) => {
+export const OrderCard: FC<PropTypes>=({order, forceUpdate}) => {
     const [showInformationModal, setShowInformationModal] = useState(false);
     const [confirmDialogDelete, setConfirmDialogDelete] = useState(false);
     const [confirmDialogAccept, setConfirmDialogAccept] = useState(false);
-
-    const [confirmed, setConfirmed] = useState(order.confirmed);
 
     if (showInformationModal){
         document.body.style.overflowY = "hidden"
     }else{
         document.body.style.overflowY = "unset"
     }
+
     function deleteOrder(){
         let url = config.backend + "/deleteOrder"
 
-        let body = {
-            "order_id": order.order_id,
-        }
         axios({
             method: 'post',
             url: url,
-            data: body,
+            data: order,
             headers: { "Content-Type": "application/json" },
         })
         .then(function (response) {
-            console.log(response);
-            flagUpdate()
-            
+            if (response.data.data.complited){
+                forceUpdate()
+            }else{
+                alert(String(response.data.error))
+            }
+        })
+        .catch(function (error) {
+            alert(String(error))
+        })
+    }
+    
+    function confirme(){
+        let url = config.backend + "/orderConfirmed"
+        axios({
+            method: 'post',
+            url: url,
+            data: order,
+            headers: { "Content-Type": "application/json" },
+        })
+        .then(function (response) {
+            if(response.data.data.confirmed){
+                forceUpdate()
+            }else{
+                alert(String(response.data.error))
+            }
         })
         .catch(function (error) {
             console.log(error);
+            alert(String(error))
+
         })
     }
-    function confirme(){
-        fetch(config.backend + "/getInformation").then(res=>res.json()).then((result)=>{
-            let url = config.backend + "/orderConfirmed"
-            console.log("ddd", result.data);
-            
-            let body = {
-                "order": order,
-                "adminInformation": result.data,
-            }
-            axios({
-                method: 'post',
-                url: url,
-                data: body,
-                headers: { "Content-Type": "application/json" },
-            })
-            .then(function (response) {
-                console.log(response);
-                setConfirmed(response.data.confirmed)
-                order.uuid = response.data.uuid
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
-        })
-    }
-    function printReceiptSdek(){
-        fetch(config.backend + "/createReceiptSdek/"+order.uuid)
-    }
+    
     return (
-        <div className={st["order-card"]} id={st[confirmed ? confirmed.toString() : "false"]}>
+        <div className={st["order-card"]} id={st[String(order.confirmed)]}>
             <div id={st["one-row"]}>
                 <div className={st["order-card-title"]}>{order.last_name} {order.first_name} {order.patronymic}</div>
                 <div className={st["order-card-price"]}><div>Товаров: {order.products.length} шт.</div></div>
@@ -90,13 +83,13 @@ export const OrderCard: FC<PropTypes>=({order, flagUpdate}) => {
             </div>
             <div id={st["two-row"]}>
                 <div id={st["date-time"]}>#{order.order_id} - {order.date}</div>
-                {!confirmed && <button onClick={()=>setConfirmDialogAccept(true)} id={st["confirm-button"]}>Подтвердить заказ</button>}
+                {!order.confirmed && <button onClick={()=>setConfirmDialogAccept(true)} id={st["confirm-button"]}>Подтвердить заказ</button>}
             </div>
             {showInformationModal && 
                 <Modal closingBackground={true} onClose={() => setShowInformationModal(false)}>
                     <OrderInformationModal onClose={()=>setShowInformationModal(false)} order={order}/>
                 </Modal>}
-            {confirmDialogDelete && <ConfirmDialog onClose={()=>setConfirmDialogDelete(false)} question="Удалить заказ?" confirme={deleteOrder}/>}
-            {confirmDialogAccept && <ConfirmDialog onClose={()=>setConfirmDialogAccept(false)} question="Подтвердить заказ?" confirme={confirme}/>}
+            {confirmDialogDelete && <ConfirmDialog onClose={()=>setConfirmDialogDelete(false)} question="Удалить заказ?" confirmed={deleteOrder}/>}
+            {confirmDialogAccept && <ConfirmDialog onClose={()=>setConfirmDialogAccept(false)} question="Подтвердить заказ?" confirmed={confirme}/>}
         </div>)
 }
