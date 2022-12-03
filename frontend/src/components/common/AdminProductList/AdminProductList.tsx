@@ -49,7 +49,7 @@ export const AdminProductList: FC<PropTypes>=({list, flagUpdate}) => {
             {list.products.map((product, index)=>
                 <AdminProductCard  key={index} product={product} flagUpdate={()=>flagUpdate()}/>
             )}
-            {confirmDialogDelete && <ConfirmDialog onClose={()=>setConfirmDialogDelete(false)} question="Удалить товар?" confirme={deleteType}/>}
+            {confirmDialogDelete && <ConfirmDialog onClose={()=>setConfirmDialogDelete(false)} question="Удалить товар?" confirmed={deleteType}/>}
             {addProductModal && <AddProductInDataBaseModal flagUpdate={()=>flagUpdate()} typeId={list.type_id.toString()} onClose={()=>setAddProductModal(false)}/>}
         </div>
     )

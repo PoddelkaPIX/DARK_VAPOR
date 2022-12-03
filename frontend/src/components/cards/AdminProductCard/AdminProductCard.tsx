@@ -6,6 +6,7 @@ import { EditProductModal } from "../../../modals/EditProductModal/EditProductMo
 import config from "../../../config.json"
 import { IProduct } from "../../../interfaces";
 import { ConfirmDialog } from "../../common/ConfirmDialog/ConfirmDialog";
+import { Modal } from "../../common/Modal/Modal";
 interface PropTypes{
     product: IProduct
     flagUpdate: ()=>void
@@ -27,10 +28,15 @@ export const AdminProductCard: FC<PropTypes>=({product, flagUpdate}) => {
         })
         .then(function (response) {
             flagUpdate()
-            console.log(response);
+        
+            if (response.data.error){
+                alert(String(response.data.error))
+            }
         })
         .catch(function (error) {
             console.log(error);
+            alert(String(error))
+
         });
     }
     
@@ -43,8 +49,12 @@ export const AdminProductCard: FC<PropTypes>=({product, flagUpdate}) => {
                 <button className={st["button-edit"]} onClick={()=>setEditProductModal(true)}><i className="fa-solid fa-pen"></i></button>
                 <button className={st["button-trash"]} onClick={()=>setConfirmDialogDelete(true)}><i className="fa-solid fa-trash"></i></button>
             </div>
-            {editProductModal && <EditProductModal flagUpdate={()=>flagUpdate()} product={product} onClose={()=>setEditProductModal(false)}/>}
-            {confirmDialogDelete && <ConfirmDialog onClose={()=>setConfirmDialogDelete(false)} question="Удалить товар?" confirme={deleteProduct}/>}
+            {editProductModal && 
+                <Modal onClose={()=>setEditProductModal(false)} closingBackground={true} cross={true}>
+                    <EditProductModal flagUpdate={()=>flagUpdate()} product={product} onClose={()=>setEditProductModal(false)}/>
+                </Modal>
+                }
+            {confirmDialogDelete && <ConfirmDialog onClose={()=>setConfirmDialogDelete(false)} question="Удалить товар?" confirmed={deleteProduct}/>}
 
         </div>
     )
